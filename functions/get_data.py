@@ -40,7 +40,7 @@ def data_to_csv_by_dates(start_date: str, end_date: str, output_file = None):
         dates = get_dates_between_dates(start_date, end_date)
 
         for i in range(1, len(dates)):
-            new_year_data = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{dates[i]}.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+            new_year_data = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{dates[i]}.csv", delimiter=";", low_memory=False)
             dataset = pd.concat([dataset, new_year_data])
 
     dataset.to_csv(output_file, sep=";", index=False)
@@ -51,7 +51,10 @@ def data_to_csv_by_dates(start_date: str, end_date: str, output_file = None):
 if __name__ == "__main__":
     # Baixando os dados para que eles fiquem salvos para futuras manipulações
     """
-    for ano in range(2014, 2021):
-        data_to_csv_by_dates(f"{ano}01", f"{ano}12", output_file=f"dados/Manipulados_{ano}.csv")
-    data_to_csv_by_dates(f"202101", f"202111", output_file=f"dados/Manipulados_2021.csv")
+    datas_disponiveis = get_dates_between_dates("2014/01", "2021,11")
+    for cada_data in datas_disponiveis:
+        nome_arquivo = f"Manipulados_{cada_data[:4]}_{cada_data[-2:]}.csv"
+        data_to_csv_by_dates(cada_data, cada_data, f"dados/{nome_arquivo}")
+        print(nome_arquivo, "Adicionado com Sucesso!")
     """
+
