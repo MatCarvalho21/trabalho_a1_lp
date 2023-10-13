@@ -33,10 +33,10 @@ def get_dates_between_dates(first_date: str, final_date: str):
     return dates_list
 
 
-def data_to_csv_by_dates(start_date: str, end_date: str, output_file = None):
+def data_to_csv_by_dates(start_date: str, end_date=None, output_file=None):
     dataset = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{start_date}.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
 
-    if start_date != end_date:
+    if end_date != None:
         dates = get_dates_between_dates(start_date, end_date)
 
         for i in range(1, len(dates)):
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     datas_disponiveis = get_dates_between_dates("2014/01", "2021,11")
     for cada_data in datas_disponiveis:
         nome_arquivo = f"Manipulados_{cada_data[:4]}_{cada_data[-2:]}.csv"
-        data_to_csv_by_dates(cada_data, cada_data, f"dados/{nome_arquivo}")
+        data_to_csv_by_dates(cada_data, f"dados/{nome_arquivo}")
         print(nome_arquivo, "Adicionado com Sucesso!")
     """
 
