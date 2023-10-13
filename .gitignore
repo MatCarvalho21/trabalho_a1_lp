@@ -1,5 +1,4 @@
 # Csv files with more than 100Mb
-*.csv
 *.csv[100M,]
 
 # Byte-compiled / optimized / DLL files
