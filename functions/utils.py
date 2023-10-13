@@ -26,5 +26,11 @@ def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_name
     return dataset
 
 
+def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: str, valores_procurados: list or str) -> pd.DataFrame:
+    if type(valores_procurados) == list:
+        dados = dados[dados[coluna_do_valor].isin(valores_procurados)]
+    elif type(valores_procurados) == str:
+        dados = dados[dados[coluna_do_valor] == valores_procurados]
 
+    return dados
 
