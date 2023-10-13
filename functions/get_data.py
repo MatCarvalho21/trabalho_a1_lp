@@ -11,7 +11,7 @@ import pandas as pd
 def validate_dates():
     pass
 
-def get_dates_between_dates(first_date: str, final_date: str):
+def get_dates_between_dates(first_date: str, final_date: str) -> list:
     dates_list = []
     first_year = int(first_date[:4])
     first_month = int(first_date[-2:])
@@ -33,7 +33,7 @@ def get_dates_between_dates(first_date: str, final_date: str):
     return dates_list
 
 
-def data_to_csv_by_dates(start_date: str, end_date=None, output_file=None):
+def data_to_csv_by_dates(start_date: str, end_date=None, output_file=None) -> pd.DataFrame:
     dataset = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{start_date}.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
 
     if end_date != None:
@@ -48,7 +48,7 @@ def data_to_csv_by_dates(start_date: str, end_date=None, output_file=None):
     return dataset
 
 
-def download_data_sep_by_months(start_date: str, end_date: str, output_path="dados"):
+def download_data_sep_by_months(start_date: str, end_date: str, output_path="dados") -> None:
     datas_selecionadas = get_dates_between_dates(start_date, end_date)
 
     for cada_data in datas_selecionadas:
