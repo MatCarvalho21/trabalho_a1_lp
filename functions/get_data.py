@@ -6,7 +6,8 @@ se encontra em pleno funcionamente e não está fora do ar, além disso, não ho
 """
 
 import pandas as pd
-
+import os
+from urllib.request import urlretrieve
 
 def validate_dates():
     pass
@@ -57,9 +58,19 @@ def download_data_sep_by_months(start_date: str, end_date: str, output_path="dad
         data_to_csv_by_dates(cada_data, output_file=f"{output_path}/{nome_arquivo}")
         print(nome_arquivo, "Adicionado com Sucesso!")
 
+def download_manipulados(data_inicial: str, data_final: str, caminho: str):
+    datas = get_dates_between_dates(data_inicial, data_final)
+
+    for data in datas:
+        nome_arquivo = f"Manipulados_{data[:4]}_{data[-2:]}.csv"
+        try:
+            urlretrieve(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{data}.csv", os.path.join(caminho, nome_arquivo))
+            print(f"{nome_arquivo} adicionado com sucesso!")
+        except Exception as err:
+            print(f"Falha ao baixar {nome_arquivo}: {err}")
 
 if __name__ == "__main__":
     # Baixando os dados para que eles fiquem salvos para futuras manipulações
-    """
-    download_data_sep_by_months("2014/01", "2021/11")
-    """
+    esse_caminho = os.path.dirname(os.path.abspath(__file__))
+    caminho_completo = os.path.join(esse_caminho, "..", "dados")
+    download_manipulados("2014/01", "2021/11", caminho_completo)
