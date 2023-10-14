@@ -224,13 +224,56 @@ def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: st
     dados
         type: pandas.Dataframe
         description: dataframe com apenas as linhas que contém o valor desejado
-    """
-    if type(valores_procurados) == list:
-        dados = dados[dados[coluna_do_valor].isin(valores_procurados)]
-    elif type(valores_procurados) == str:
-        dados = dados[dados[coluna_do_valor] == valores_procurados]
 
-    return dados
+    Test
+    ----------
+    >>> dados = pd.DataFrame({"PINCIPIO_ATIVO": ["CLOROQUINA", "DIFOSFATO DE CLOROQUINA", "HIDROXICLOROQUINA", "IBUPROFENO"], "Qnt": [10, 5, 8, 15]})
+    >>> filtra_dados_por_valores_procurados(dados, "PINCIPIO_ATIVO", "CLOROQUINA")["Qnt"][0]
+    10
+
+    >>> filtra_dados_por_valores_procurados(dados, "PINCIPIO_ATIVO", ["CLOROQUINA", "HIDROXICLOROQUINA"])["Qnt"]
+    0    10
+    2     8
+    Name: Qnt, dtype: int64
+
+    >>> filtra_dados_por_valores_procurados(42, "PINCIPIO_ATIVO", "CLOROQUINA")
+    DataFrame inválido, tente inserir outro DataFrame.
+
+    >>> filtra_dados_por_valores_procurados(dados, 66, "CLOROQUINA")
+    Tente inserir um nome de coluna válido como string.
+
+    >>> filtra_dados_por_valores_procurados(dados, "COLUNA_INVÁLIDA", "CLOROQUINA")
+    Coluna selecionada inválida, tente inserir o nome de uma coluna do DataFrame.
+
+    """
+    # Chega se o data frame é válido.
+    try:
+        if type(dados) != pd.DataFrame:
+            raise TypeError
+
+    except TypeError:
+        print("DataFrame inválido, tente inserir outro DataFrame.")
+
+    else:
+        # Checa se a coluna é válida.
+        try:
+            if type(coluna_do_valor) != str:
+                raise TypeError
+            elif coluna_do_valor not in dados.columns:
+                raise ValueError
+    
+        except TypeError:
+            print("Tente inserir um nome de coluna válido como string.")
+        except ValueError:
+            print("Coluna selecionada inválida, tente inserir o nome de uma coluna do DataFrame.")
+    
+        else:
+            if type(valores_procurados) == list:
+                dados = dados[dados[coluna_do_valor].isin(valores_procurados)]
+            else:
+                dados = dados[dados[coluna_do_valor] == valores_procurados]
+
+            return dados
 
 
 if __name__ == "__main__":
