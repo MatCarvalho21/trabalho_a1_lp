@@ -4,9 +4,8 @@ import numpy as np
 import doctest
 
 """Esse módulo conta com três funções. Todas elas estão ligadas à contrução da visualização sobre a evolução
-no uso de anabolizantes. A primeira vai criar os vários gráficos que vão compor a visualização animada. A 
-segunda vai selecionar quais gráficos vão de fato entrar na visualização final. A terceira vai de fato gerar
-o gif que é o resultado final desse módulo."""
+no uso de anabolizantes. A função contida nesse módulo vai ter como objetivo gerar os frames que serão
+usados para contruir a visualização final."""
 
 lista_de_anabolizantes = ["TESTOSTERONA",
                             "ESTANOZOLOL",
@@ -46,6 +45,9 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
         type: int
         description: o número do ano que vamos plotar
         example: 5
+
+    Test
+    ----------
     """
 
     # filtragem e configuração do dataframe
