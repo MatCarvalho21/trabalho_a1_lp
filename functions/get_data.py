@@ -6,41 +6,42 @@ se encontra em pleno funcionamente e não está fora do ar, além disso, não ho
 """
 
 import pandas as pd
-
+import os
+from urllib.request import urlretrieve
 
 def validate_dates():
     pass
 
-def get_dates_between_dates(first_date: str, final_date: str) -> list:
-    dates_list = []
-    first_year = int(first_date[:4])
-    first_month = int(first_date[-2:])
-    final_year = int(final_date[:4])
-    final_month = int(final_date[-2:])
+def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
+    lista_datas = []
+    ano_inicial = int(data_inicial[:4])
+    mes_inicial = int(data_inicial[-2:])
+    ano_final = int(data_final[:4])
+    mes_final = int(data_final[-2:])
 
-    while first_year <= final_year:
-        date = f"{first_year}{first_month:02}"
-        dates_list.append(date)
+    while ano_inicial <= ano_final:
+        date = f"{ano_inicial}{mes_inicial:02}"
+        lista_datas.append(date)
         
-        if first_year == final_year and first_month == final_month:
+        if ano_inicial == ano_final and mes_inicial == mes_final:
             break
-        elif first_month == 12:
-            first_year += 1
-            first_month = 1
+        elif mes_inicial == 12:
+            ano_inicial += 1
+            mes_inicial = 1
         else:
-            first_month += 1
+            mes_inicial += 1
 
-    return dates_list
+    return lista_datas
 
 
-def data_to_csv_by_dates(start_date: str, end_date=None, output_file=None) -> pd.DataFrame:
-    dataset = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{start_date}.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+def data_to_csv_by_dates(data_inicial: str, data_final=None, output_file=None) -> pd.DataFrame:
+    dataset = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{data_inicial}.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
 
-    if end_date != None:
-        dates = get_dates_between_dates(start_date, end_date)
+    if data_final != None:
+        dates = get_dates_between_dates(data_inicial, data_final)
 
-        for i in range(1, len(dates)):
-            new_year_data = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{dates[i]}.csv", delimiter=";", low_memory=False)
+        for index in range(1, len(dates)):
+            new_year_data = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{dates[index]}.csv", delimiter=";", low_memory=False)
             dataset = pd.concat([dataset, new_year_data])
 
     dataset.to_csv(output_file, sep=";", index=False)
@@ -48,18 +49,22 @@ def data_to_csv_by_dates(start_date: str, end_date=None, output_file=None) -> pd
     return dataset
 
 
-def download_data_sep_by_months(start_date: str, end_date: str, output_path="dados") -> None:
-    datas_selecionadas = get_dates_between_dates(start_date, end_date)
+def download_data_sep_by_months(data_incial: str, data_final: str, caminho: str) -> None:
+    datas_selecionadas = get_dates_between_dates(data_incial, data_final)
 
     for cada_data in datas_selecionadas:
         nome_arquivo = f"Manipulados_{cada_data[:4]}_{cada_data[-2:]}.csv"
-
-        data_to_csv_by_dates(cada_data, output_file=f"{output_path}/{nome_arquivo}")
-        print(nome_arquivo, "Adicionado com Sucesso!")
+        try:
+            data_to_csv_by_dates(cada_data, output_file=os.path.join(caminho, nome_arquivo))
+            print(nome_arquivo, "Adicionado com Sucesso!")
+        except Exception as err:
+            print(f"Falha ao baixar {nome_arquivo}: {err}")
 
 
 if __name__ == "__main__":
     # Baixando os dados para que eles fiquem salvos para futuras manipulações
-    """
-    download_data_sep_by_months("2014/01", "2021/11")
-    """
+    esse_caminho = os.path.dirname(os.path.abspath(__file__))
+    caminho_completo = os.path.join(esse_caminho, "..", "dados")
+
+    download_data_sep_by_months("2014/01", "2021/11", caminho_completo)
+

@@ -14,9 +14,13 @@ def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_name
     
     for index in range(1, len(dates)):
         date_year, date_month = dates[index][:4], dates[index][-2:]
-
-        new_dataset = pd.read_csv(f"{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv",
-                          delimiter=";", low_memory=False)
+        try:
+            new_dataset = pd.read_csv(f"{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv",
+                            delimiter=";", low_memory=False)
+        except Exception as err:
+            print(f"Não foi possível converter '{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv' em dataframe")
+            print(err)
+            continue
     
         if filtered_columns != None:
             new_dataset = new_dataset[filtered_columns]
