@@ -1,0 +1,35 @@
+import pandas as pd 
+import matplotlib.pyplot as plt 
+import utils 
+import plotly.express as px
+import doctest
+
+# Criando um dataframe de colunas específicas
+
+df = utils.concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "MES_VENDA", "UF_VENDA", "PRINCIPIO_ATIVO"])
+
+# Gerando o dataframe que contém apenas o Zolpidem
+
+df_hemitartarato_de_zolpidem = (df[df["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
+df_zolpidem = (df[df["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
+df = pd.concat([df_hemitartarato_de_zolpidem, df_zolpidem]).reset_index()
+
+# Contagem por ano
+
+df["REMÉDIO_VENDIDO"] = df["PRINCIPIO_ATIVO"].replace({"HEMITARTARATO DE ZOLPIDEM": 1, "ZOLPIDEM": 1})
+
+df_venda_por_ano = df.groupby("ANO_VENDA")["REMÉDIO_VENDIDO"].sum().sort_values(ascending = False).reset_index()
+
+print(df_venda_por_ano)
+
+# Customização do gráfico
+
+plt.scatter(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], marker="*", c = "Black")
+plt.plot(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], c = "Gray")
+plt.suptitle("Venda de Zolpidem ao Longo dos Anos", fontweight = "bold")
+plt.xlabel("Anos", fontweight = "bold")
+plt.ylabel("Vendas", fontweight = "bold")
+plt.gca().set_facecolor("Beige")
+
+plt.show()
+
