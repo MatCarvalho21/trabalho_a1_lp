@@ -1,6 +1,10 @@
 import pandas as pd   
 import doctest
 
+lista_de_anabolizantes = ["TESTOSTERONA",
+                        "ESTANOZOLOL",
+                        "NANDROLONA"]
+
 def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     """
     A função tem como objetivo receber um dataframe bruto e realizar a filtragem dos dados
@@ -30,9 +34,6 @@ def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     Algum erro inesperado aconteceu, verifique a base de dados.
 
     """
-    lista_de_anabolizantes = ["TESTOSTERONA",
-                              "ESTANOZOLOL",
-                              "NANDROLONA"]
     
     try: 
         #filtragem do dataframe
@@ -46,9 +47,8 @@ def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     except KeyError:
         print("Esse dataframe está no formato incorreto, ele não possui a coluna 'PRINCIPIO_ATIVO'.")
         dataframe_final = None
-
     except:
-        print("Algum erro inesperado aconteceu, verifique a base de dados.")
+        print("Algo deu errado. Verifique a documentação da função e tente novamente.")
         dataframe_final = None
     
     return dataframe_final

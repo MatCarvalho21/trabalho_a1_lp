@@ -47,10 +47,6 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
         type: int
         description: o número do ano que vamos plotar
         example: 5
-
-    Test
-    ----------
-
     """
 
     # filtragem e configuração do dataframe
