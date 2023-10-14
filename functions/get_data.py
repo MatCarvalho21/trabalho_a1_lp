@@ -10,7 +10,7 @@ import os
 import doctest
 
 
-def validacao_datas(data_inicial: str, data_final: str) -> None:
+def validacao_datas(data_inicial: str, data_final: str) -> True:
     """Recebe duas datas e as valida para o formato desejado.
 
     Duas strings de datas, sendo que os primeiros 4 dígitos devem ser do ano e os últimos 2 do mês,
@@ -23,6 +23,11 @@ def validacao_datas(data_inicial: str, data_final: str) -> None:
         A primeira data a ser validada.
     data_final : str
         A segunda data a ser validada, esta data deve ser posterior a primeira.
+
+    Returns
+    -------
+    True
+        Caso nenhum erro seja encontrado, ou seja, as datas sejam válidas
 
     Raises
     ------
@@ -38,8 +43,10 @@ def validacao_datas(data_inicial: str, data_final: str) -> None:
     Test
     ----------
     >>> validacao_datas("2014/01", "2014/01")
+    True
 
     >>> validacao_datas("2014/01", "2021/06")
+    True
 
     >>> validacao_datas(2014/1, "2014/01")
     Tipo das datas inserido está incorreto, tente inserir a data como uma string, ex: '2015/05'
@@ -92,30 +99,67 @@ def validacao_datas(data_inicial: str, data_final: str) -> None:
 
     except Exception as err:
         print("Outro erro encontrado:", err)
+    else:
+        return True
 
 
 def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
-    validacao_datas(data_inicial, data_final)
+    """Recebe duas datas e retorna uma lista com todas as datas entre essas duas datas.
+    
+    A segunda data deve ser posterior a primeira, e do formato "AAAA/mm", além disso, as datas devem
+    estar entre Janeiro de 2014 e Novembro de 2021. Possui as mesmas exceções da função "validacao_datas".
 
+    Parameters
+    ----------
+    data_inicial : str
+        A primeira data a ser validada.
+    data_final : str
+        A segunda data a ser validada, esta data deve ser posterior a primeira.
+
+    Returns
+    -------
+    lista_datas : list
+        Uma lista com todas as datas entre a data inicial e a data final, as datas
+        estão no formato de string "AAAAmm". Caso as datas não sejam válidas, retorna uma lista vazia.
+
+    Test
+    ----------
+    >>> get_dates_between_dates("2014/01", "2014/01")
+    ['201401']
+
+    >>> get_dates_between_dates("2021/08", "2021/11")
+    ['202108', '202109', '202110', '202111']
+
+    >>> get_dates_between_dates("2014/01", "2030/06")
+    Problemas com a segunda data inserida: 2030/06
+    Formato da data está incorreto ou ela não está entre Janeiro de 2014 e Novembro de 2021, tente inserir como ANO/mês, ex: '2015/05'.
+    []
+    """
     lista_datas = []
-    ano_inicial = int(data_inicial[:4])
-    mes_inicial = int(data_inicial[-2:])
-    ano_final = int(data_final[:4])
-    mes_final = int(data_final[-2:])
+    try:
+        if validacao_datas(data_inicial, data_final) != True:
+            raise Exception
+    except:
+        return lista_datas
+    else:
+        ano_inicial = int(data_inicial[:4])
+        mes_inicial = int(data_inicial[-2:])
+        ano_final = int(data_final[:4])
+        mes_final = int(data_final[-2:])
 
-    while ano_inicial <= ano_final:
-        data_atual = f"{ano_inicial}{mes_inicial:02}"
-        lista_datas.append(data_atual)
-        
-        if ano_inicial == ano_final and mes_inicial == mes_final:
-            break
-        elif mes_inicial == 12:
-            ano_inicial += 1
-            mes_inicial = 1
-        else:
-            mes_inicial += 1
+        while ano_inicial <= ano_final:
+            data_atual = f"{ano_inicial}{mes_inicial:02}"
+            lista_datas.append(data_atual)
+            
+            if ano_inicial == ano_final and mes_inicial == mes_final:
+                break
+            elif mes_inicial == 12:
+                ano_inicial += 1
+                mes_inicial = 1
+            else:
+                mes_inicial += 1
 
-    return lista_datas
+        return lista_datas
 
 
 def download_csv_by_dates(data_inicial: str, data_final=None, output_file=None) -> pd.DataFrame:
@@ -168,3 +212,4 @@ if __name__ == "__main__":
     # download_data_sep_by_months("2014/01", "2021/11", caminho_completo)
 
     doctest.testmod(verbose=True)
+    # print(get_dates_between_dates("2014/01", "2030/06"))
