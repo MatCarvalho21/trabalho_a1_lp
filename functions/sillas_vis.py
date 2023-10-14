@@ -1,27 +1,101 @@
 import geobr
 import pandas as pd
 import matplotlib.pyplot as plt
+import doctest
 import utils
 from get_data import get_dates_between_dates
 
 
 def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
-    soma_vendas = pd.DataFrame()
-    vendas_totais = dados.value_counts(atributo)
+    """Função que soma algum atributo de um dataframe.
 
-    soma_vendas[atributo] = vendas_totais.index
-    soma_vendas["vendas"] = vendas_totais.values
+    Recebe um dataframe e retorna um dataframe contendo o atributo selecionado e a quantidade
+    de observações em uma coluna chamada "vendas".
 
-    return soma_vendas
+    Parameters
+    ----------
+    dados : pd.DataFrame
+        Dataframe com a coluna do atributo
+    atributo : str
+        atributo onde as observações serão somadas. 
+
+    Returns
+    -------
+    pd.DataFrame
+        Dataframe que contém como colunas o atributo e "vendas", sendo as vendas
+        a soma da quantidade de observações do atributo.
+    
+    Test
+    ----------
+    >>> dados = pd.DataFrame({'PINCIPIO_ATIVO': ['CLOROQUINA', 'DIFOSFATO DE CLOROQUINA', 'HIDROXICLOROQUINA', 'CLOROQUINA'], 'UF': ["SP", "RJ", "RJ", "MS"]})
+    >>> soma_vendas_por_atributo(dados, "UF")
+       UF  vendas
+    0  RJ       2
+    1  MS       1
+    2  SP       1
+
+    >>> soma_vendas_por_atributo(66, "UF")
+    Dataframe ou atributo inválido, tente inserir outro dataframe ou um atributo como string.
+
+    >>> soma_vendas_por_atributo(dados, 66)
+    Dataframe ou atributo inválido, tente inserir outro dataframe ou um atributo como string.
+
+    >>> soma_vendas_por_atributo(dados, "COLUNA_INVÁLIDA")
+    Atributo inválido, insira uma coluna da base de dados.
+    """
+    # Valida a base de dados e o tipo do atributo
+    try:
+        if type(dados) != pd.DataFrame or type(atributo) != str:
+            raise TypeError
+    
+    except TypeError:
+        print("Dataframe ou atributo inválido, tente inserir outro dataframe ou um atributo como string.")
+    
+    else:
+        # Valida o atributo
+        try:
+            if atributo not in dados.columns:
+                raise ValueError
+        except ValueError:
+            print("Atributo inválido, insira uma coluna da base de dados.")
+        else:
+            # Faz a contagem de observações.
+            soma_vendas = pd.DataFrame()
+            vendas_totais = dados.value_counts(atributo)
+
+            soma_vendas[atributo] = vendas_totais.index
+            soma_vendas["vendas"] = vendas_totais.values
+
+            return soma_vendas
 
 
 def mapeia_dados_estaduais(dados_mapeamento:pd.DataFrame, coluna_estados:str,) -> pd.DataFrame:
-    dados_estaduais = geobr.read_state()
-    dados_estaduais.rename(columns={"abbrev_state": coluna_estados}, inplace=True)
+        
+    try:
+        # Valida a base de dados e o tipo da coluna
+        if type(dados_mapeamento) != pd.DataFrame or type(coluna_estados) != str:
+            raise TypeError
+        # Valida a coluna na base de dados
+        elif coluna_estados not in dados_mapeamento.columns:
+            raise ValueError
+    
+    except TypeError:
+        print("Dataframe ou coluna de estados inválida, tente inserir outro dataframe ou a coluna como string.")
+    except ValueError:
+        print("Coluna não encontrada no Dataframe, tente inserir uma coluna válida do dataframe.")
 
-    dados_resultantes = pd.merge(dados_estaduais, dados_mapeamento, on=coluna_estados, how="outer")
+    else:
+        # Realiza o merge entre o dataframe com os dados estaduais e o dataframe selecionado pela coluna de estados
+        try:
+            dados_estaduais = geobr.read_state()
+            dados_estaduais.rename(columns={"abbrev_state": coluna_estados}, inplace=True)
 
-    return dados_resultantes
+            dados_resultantes = pd.merge(dados_estaduais, dados_mapeamento, on=coluna_estados, how="outer")
+
+            return dados_resultantes
+    
+        except Exception as err:
+            print("Erro encontrado:", err)
 
 
 def gera_visualizacao_cloroquina(dados:pd.DataFrame, coluna_principio_ativo:str ="PRINCIPIO_ATIVO",
@@ -90,4 +164,4 @@ if __name__ == "__main__":
     # visualizacao_sillas("2020/01", "2020/03", "..")
 
     # print(data["UF_VENDA"].value_counts())
-    pass
+    doctest.testmod(verbose=True)

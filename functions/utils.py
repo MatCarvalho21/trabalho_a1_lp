@@ -1,3 +1,8 @@
+"""Este módulo contém funções úteis para a manipulação da base de dados utilizando-se de datas
+e a conversão de imagens em gifs, utilizada na visualização de alguns membros, além da filtragem
+dos dados.
+"""
+
 from get_data import get_dates_between_dates
 import pandas as pd
 import imageio
