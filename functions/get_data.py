@@ -249,29 +249,75 @@ def download_csv_by_dates(data_inicial:str, data_final:str = None, output_file:s
     except ValueError:
         print("O arquivo de saída deve ser uma string e terminar em .csv, ex: 'caminho/meu_arquivo.csv'")
     except Exception as err:
-        print("Houve um erro:", err)
+        print("Houve um erro:", err, end=". ")
     except BaseException:
         return
 
 
 def download_data_sep_by_months(data_incial:str, data_final:str, caminho:str) -> None:
-    datas_selecionadas = get_dates_between_dates(data_incial, data_final)
+    """Baixa arquivos da base de dados separadamente por meses
 
-    for cada_data in datas_selecionadas:
-        nome_arquivo = f"Manipulados_{cada_data[:4]}_{cada_data[-2:]}.csv"
-        try:
-            download_csv_by_dates(cada_data, output_file=os.path.join(caminho, nome_arquivo))
-            print(nome_arquivo, "Adicionado com Sucesso!")
-        except Exception as err:
-            print(f"Falha ao baixar {nome_arquivo}: {err}")
+    Devido as limitações do github para arquivos de tamanhos grandes, essa função baixa os arquivos
+    separadamente por mês e ano, os salvando da forma "Manipulados_AAAA_mm.csv", ex: Manipulados_2014_01.csv.
+    Os dados de medicamentos manipulados de Janeiro de 2014. as validações de datas são feitas seguindo a função
+    "validacao_datas". A função está também limitada ao pleno funcionamento do site
+    https://dados.gov.br/dados/conjuntos-dados/venda-de-medicamentos-controlados-e-antimicrobianos---medicamentos-manipulados
+
+
+    Parameters
+    ----------
+    data_incial : str
+        A data do primeiro registro a ser baixado.
+    data_final : str
+        A data do último registro a ser baixado.
+    caminho : str
+        O caminho em que os arquivos serão baixados.
+
+    Test
+    ----------
+    >>> download_data_sep_by_months("2014/01", "201401", 3)
+    Caminho deve ser uma string, tente iserir outro caminho.
+
+    >>> download_data_sep_by_months("2013/01", "2015/01", 3)
+    Problemas com a primeira data inserida: 2013/01
+    Formato da data está incorreto ou ela não está entre Janeiro de 2014 e Novembro de 2021, tente inserir como ANO/mês, ex: '2015/05'.
+
+    """
+    # Pega as datas selecionadas e faz a validação.
+    datas_selecionadas = get_dates_between_dates(data_incial, data_final)
+    
+    # Confirma se o caminho é do tipo válido e se as datas foram válidas.
+    try:
+        if datas_selecionadas == []:
+            raise ValueError
+        if type(caminho) != str:
+            raise TypeError
+    except TypeError:
+        print("Caminho deve ser uma string, tente iserir outro caminho.")
+    except ValueError:
+        pass
+    else:
+        for cada_data in datas_selecionadas:
+            nome_arquivo = f"Manipulados_{cada_data[:4]}_{cada_data[-2:]}.csv"
+            try:
+                # Tenta baixar os arquivos e se eles não forem baixados levanda a exceção.
+                dados = download_csv_by_dates(cada_data, output_file=os.path.join(caminho, nome_arquivo))
+                if type(dados) == type(None):
+                    raise Exception
+                print(nome_arquivo, "Adicionado com Sucesso!")
+
+            except Exception as err:
+                print(f"Falha ao baixar {nome_arquivo}. {err}")
 
 
 if __name__ == "__main__":
     # Baixando os dados para que eles fiquem salvos para futuras manipulações
+    """
     esse_caminho = os.path.dirname(os.path.abspath(__file__))
     caminho_completo = os.path.join(esse_caminho, "..", "dados")
 
-    # print(download_data_sep_by_months("2014/01", "2023/11", caminho_completo))
-
+    print(download_data_sep_by_months("2014/01", "2021/11", caminho_completo))
+    """
+    
     doctest.testmod(verbose=True)
-    # print(download_csv_by_dates("2014/01", "2014/01", output_file="dados/manip"))
+    
