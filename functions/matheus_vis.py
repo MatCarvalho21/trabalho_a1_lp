@@ -4,6 +4,11 @@ import numpy as np
 import doctest
 import imageio
 
+"""Esse módulo conta com três funções. Todas elas estão ligadas à contrução da visualização sobre a evolução
+no uso de anabolizantes. A primeira vai criar os vários gráficos que vão compor a visualização animada. A 
+segunda vai selecionar quais gráficos vão de fato entrar na visualização final. A terceira vai de fato gerar
+o gif que é o resultado final desse módulo."""
+
 lista_de_anabolizantes = ["TESTOSTERONA",
                             "ESTANOZOLOL",
                             "NANDROLONA"]
@@ -21,7 +26,7 @@ x_meses = {"Janeiro": 1,
             "Novembro": 11,
             "Dezembro": 12}
 
-def grafico_animado(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_analizado:int) -> None:
+def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_analizado:int) -> None:
     """
     A função tem como objetivo criar vários frames, separados por ano e por mês, 
     para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
@@ -154,14 +159,25 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
 
     Test
     ----------
+    >>> seletor_de_frames("2014", "2016", "pasta_inexistente")
+    Não foi possível encontrar nenhum frame. Certifique de que o caminho fornecido está correto.
     """
 
     lista_de_frames = list()
 
-    for cada_ano in range(int(data_inicial), int(data_final) + 1):
-        for cada_mes in range(1, 13):
-            frame = imageio.v2.imread(f"{path_pasta_imagens}\\frame_{cada_ano}_{cada_mes}.png")
-            lista_de_frames.append(frame)
+    try:
+        # selecionando os frames
+        for cada_ano in range(int(data_inicial), int(data_final) + 1):
+            for cada_mes in range(1, 13):
+                frame = imageio.v2.imread(f"{path_pasta_imagens}\\frame_{cada_ano}_{cada_mes}.png")
+                lista_de_frames.append(frame)
+
+    except FileNotFoundError:
+        print("Não foi possível encontrar nenhum frame. Certifique de que o caminho fornecido está correto.")
+        lista_de_frames = None
+    except:
+        print("Algo deu errado. Verifique a documentação da função e tente novamente.")
+        lista_de_frames = None
 
     return lista_de_frames
 
@@ -186,8 +202,13 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
         type: str
         description: nome do arquivo que vai ser gerado e salvo
         example: "meu_gif"
+
+    Test
+    ----------
+    >>> gerador_de_gif(list(), "functions", "nome_genérico")
+    A lista fornecida deveria conter várias imagens para formar o gif. Verifique o parâmetro fornecido.
     """
-    
+
     try: 
         imageio.mimsave(f"{path_folder_for_save}\{output_name}.gif", lista_de_frames, fps=4)
 
@@ -200,4 +221,5 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
     
 
 if __name__ == "__main__":
+    doctest.testmod()
     pass
