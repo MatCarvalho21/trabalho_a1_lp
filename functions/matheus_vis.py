@@ -1,62 +1,124 @@
-from dados_anabolizantes import set_anabolizantes
 import pandas as pd  
 import matplotlib.pyplot as plt 
+import numpy as np 
+import doctest
 
-df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_04 = pd.read_csv("dados\Manipulados_2014_04.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_05 = pd.read_csv("dados\Manipulados_2014_05.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_06 = pd.read_csv("dados\Manipulados_2014_06.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_07 = pd.read_csv("dados\Manipulados_2014_07.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_08 = pd.read_csv("dados\Manipulados_2014_08.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_09 = pd.read_csv("dados\Manipulados_2014_09.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_10 = pd.read_csv("dados\Manipulados_2014_10.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_11 = pd.read_csv("dados\Manipulados_2014_11.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_12 = pd.read_csv("dados\Manipulados_2014_12.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+lista_de_anabolizantes = ["TESTOSTERONA",
+                            "ESTANOZOLOL",
+                            "NANDROLONA"]
 
-dataframe_geral = pd.concat((df_01, df_02, df_03, df_04, df_05, df_06, df_07, df_08, df_09, df_10, df_11, df_12))
-dataframe_geral["NUMERO_DE_VENDAS"] = 1
+x_meses = {"Janeiro": 1,
+            "Fevereiro": 2,
+            "Março": 3,
+            "Abril": 4,
+            "Maio": 5,
+            "Junho": 6,
+            "Julho": 7,
+            "Agosto": 8,
+            "Setembro": 9,
+            "Outubro": 10,
+            "Novembro": 11,
+            "Dezembro": 12}
 
-x_meses = range(1, 13)
+def grafico_animado(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_analizado:int) -> None:
+    """
+    A função tem como objetivo criar vários frames, separados por ano e por mês, 
+    para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
+    que serão utilizadas para montar a visualização animada.
 
-figure, axis = plt.subplots(nrows=2, 
-                                    ncols=2, 
-                                    sharex=True,
-                                    figsize=(15, 12))
+    Parameters
+    ----------
+    dataframe_filtrado
+        type: pd.DataFrame
+        description: o dataframe filtrado e concatenado que vai ser base da análise
+    
+    ano_analizado
+        type: int
+        description: o número do mês que vamos plotar 
 
-#TESTOSTERONA
-df_testosterona = (dataframe_geral[dataframe_geral["PRINCIPIO_ATIVO"] == "TESTOSTERONA"]).reset_index(drop=True).groupby("MES_VENDA").sum()
-y_testosterona = list(df_testosterona["NUMERO_DE_VENDAS"])
+    mes_analizado
+        type: int
+        description: o número do ano que vamos plotar
 
-axis[0, 0].set_title('Testosterona')
-axis[0, 0].errorbar(x_meses, y_testosterona)
+    Test
+    ----------
 
+    """
 
-#ESTANOZOLOL
-df_estanozolol = (dataframe_geral[dataframe_geral["PRINCIPIO_ATIVO"] == "ESTANOZOLOL"]).reset_index(drop=True).groupby("MES_VENDA").sum()
-y_estanozolol = list(df_estanozolol["NUMERO_DE_VENDAS"])
+    # filtragem e configuração do dataframe
+    dataframe_filtrado["NUMERO_DE_VENDAS"] = 1
+    dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["ANO_VENDA"] == ano_analizado]
+    dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["MES_VENDA"] <= mes_analizado]
 
-axis[0, 1].set_title('Estanozolol')
-axis[0, 1].errorbar(x_meses, y_estanozolol)
+    # criação dos objetos de plotagem
+    figure, (grafico1, grafico2, grafico3) = plt.subplots(nrows=1, 
+                                    ncols=3, 
+                                    sharex=True, 
+                                    figsize=(20, 5))
+    
+    #TESTOSTERONA #######################################################################################################
 
-#METANDIENONA
+    # plotagem do gráfico 1
+    df_testosterona = dataframe_filtrado[dataframe_filtrado["PRINCIPIO_ATIVO"] == "TESTOSTERONA"].reset_index(drop=True)
+    df_testosterona = df_testosterona[["MES_VENDA", "NUMERO_DE_VENDAS"]]
+    df_testosterona = df_testosterona.groupby("MES_VENDA").sum().reset_index(drop=True)
+    numero_vendas_testosterona = list(df_testosterona["NUMERO_DE_VENDAS"]) 
 
-df_metandienona = (dataframe_geral[dataframe_geral["PRINCIPIO_ATIVO"] == "METANDIENONA"]).reset_index(drop=True).groupby("MES_VENDA").sum()
-y_metandienona = list(df_metandienona["NUMERO_DE_VENDAS"])
+    grafico1.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
+    grafico1.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
+    grafico1.set_ylim(bottom=0, top=15000)
+    grafico1.axhline(y=np.nanmean(numero_vendas_testosterona), color="red", linestyle='--', linewidth=1.5, label='Média')
+    grafico1.legend()
+    grafico1.set_title("Testosterona")
+    grafico1.set_ylabel('Nº de Vendas', fontsize=12)
 
-if len(y_metandienona) < 12:
-    y_metandienona = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    #ESTANOZOLOL ########################################################################################################
 
+    # plotagem do gráfico 2
+    df_estanozolol = dataframe_filtrado[dataframe_filtrado["PRINCIPIO_ATIVO"] == "ESTANOZOLOL"].reset_index(drop=True)
+    df_estanozolol = df_estanozolol[["MES_VENDA", "NUMERO_DE_VENDAS"]]
+    df_estanozolol = df_estanozolol.groupby("MES_VENDA").sum().reset_index(drop=True)
+    numero_vendas_estanozolol = list(df_estanozolol["NUMERO_DE_VENDAS"]) 
 
-axis[1, 0].set_title('Metandienona')
-axis[1, 0].errorbar(x_meses, y_metandienona)
+    grafico2.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_estanozolol, color="midnightblue")
+    grafico2.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_estanozolol, color="midnightblue")
+    grafico2.set_ylim(bottom=0, top=1500)
+    grafico2.axhline(y=np.nanmean(numero_vendas_estanozolol), color="red", linestyle='--', linewidth=1.5, label='Média')
+    grafico2.legend()
+    grafico2.set_title("Estanozolol")
+    grafico2.set_xlabel('Meses do Ano', fontsize=12)
 
-#NANDROLONA
-df_nandrolona = (dataframe_geral[dataframe_geral["PRINCIPIO_ATIVO"] == "NANDROLONA"]).reset_index(drop=True).groupby("MES_VENDA").sum()
-y_nandrolona = list(df_nandrolona["NUMERO_DE_VENDAS"])
+    #NANDROLONA ########################################################################################################
 
-axis[1, 1].set_title('Nandrolona')
-axis[1, 1].errorbar(x_meses, y_nandrolona)
+    # plotagem do gráfico 3
+    df_nandrolona = dataframe_filtrado[dataframe_filtrado["PRINCIPIO_ATIVO"] == "NANDROLONA"].reset_index(drop=True)
+    df_nandrolona = df_nandrolona[["MES_VENDA", "NUMERO_DE_VENDAS"]]
+    df_nandrolona = df_nandrolona.groupby("MES_VENDA").sum().reset_index(drop=True)
+    numero_vendas_nandrolona = list(df_nandrolona["NUMERO_DE_VENDAS"]) 
 
-plt.show()
+    grafico3.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_nandrolona, color="midnightblue")
+    grafico3.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_nandrolona, color="midnightblue")
+    grafico3.set_ylim(bottom=0, top=150)
+    grafico3.axhline(y=np.nanmean(numero_vendas_nandrolona), color="red", linestyle='--', linewidth=1.5, label='Média')
+    grafico3.legend()
+    grafico3.set_title("Nandrolona")
+
+    ####################################################################################################################
+
+    plt.suptitle(f"Venda de Anabolizantes Por Ano ({ano_analizado})", fontsize=18)
+    plt.xlim(0, 13)
+
+    # salvando as imagens
+    plt.savefig(f'functions\matheus_imagens\\frame_{ano_analizado}_{mes_analizado}.png', 
+                transparent = False,  
+                facecolor = 'white'
+               )
+    
+    plt.close()
+    
+    # confirmação do processo
+    print(f"{ano_analizado}, {mes_analizado} concluido")
+
+    
+if __name__ == "__main__":
+    pass

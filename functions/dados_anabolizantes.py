@@ -32,23 +32,21 @@ def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     """
     lista_de_anabolizantes = ["TESTOSTERONA",
                               "ESTANOZOLOL",
-                              "METANDIENONA", 
                               "NANDROLONA"]
     
     try: 
         #filtragem do dataframe
         df_testosterona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[0]].reset_index(drop=True)
         df_estanozolol = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[1]].reset_index(drop=True)
-        df_metandienona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[2]].reset_index(drop=True)
-        df_nandrolona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[3]].reset_index(drop=True)
+        df_nandrolona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[2]].reset_index(drop=True)
 
         #concatenação do dataframe
-        dataframe_final = pd.concat((df_testosterona, df_estanozolol, df_metandienona, df_nandrolona)).reset_index(drop=True)
+        dataframe_final = pd.concat((df_testosterona, df_estanozolol, df_nandrolona)).reset_index(drop=True)
 
     except KeyError:
         print("Esse dataframe está no formato incorreto, ele não possui a coluna 'PRINCIPIO_ATIVO'.")
         dataframe_final = None
-        
+
     except:
         print("Algum erro inesperado aconteceu, verifique a base de dados.")
         dataframe_final = None
