@@ -5,12 +5,6 @@ import utils
 from get_data import get_dates_between_dates
 
 
-def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: str, valores_procurados: list) -> pd.DataFrame:
-    dados = dados[dados[coluna_do_valor] in valores_procurados]
-
-    return dados
-
-
 def soma_vendas_por_atributo(dados: pd.DataFrame, atributo: str) -> pd.DataFrame:
     soma_vendas = pd.DataFrame()
     vendas_totais = dados.value_counts(atributo)
@@ -85,7 +79,7 @@ def visualizacao_sillas(data_inicial: str, data_final: str, pasta_imagens: str, 
         ax.set_title(label=f"Venda de Cloroquina (e derivados) em\n{meses[mes]} de {ano}", loc="right")
 
         if save_fig == True:
-            plt.savefig(f"{pasta_imagens}/frame_{cada_data[:4]}_{cada_data[-2:]}.png", dpi=500)
+            plt.savefig(f"{pasta_imagens}/frame_{cada_data[:4]}_{int(cada_data[-2:])}.png", dpi=500)
 
     return ax
 

@@ -9,8 +9,46 @@ import pandas as pd
 import os
 from urllib.request import urlretrieve
 
-def validate_dates():
-    pass
+
+def validacao_datas(data_inicial: str, data_final: str):
+    anos_validos = ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"]
+    meses_validos = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    try:
+        if type(data_inicial) != str or type(data_final) != str:
+            raise TypeError
+        if len(data_inicial) < 6 or len(data_final) < 6:
+            raise NameError
+        
+        ano_incial, mes_inicial = data_inicial[:4], data_inicial[-2:]
+        ano_final, mes_final = data_final[:4], data_final[-2:]
+
+        if ano_incial not in anos_validos or mes_inicial not in meses_validos:
+            print("Problemas com a primeira data inserida:", f"{ano_incial}/{mes_inicial}")
+            raise ValueError
+        elif ano_final not in anos_validos or mes_final not in meses_validos:
+            print("Problemas com a segunda data inserida:", f"{ano_final}/{mes_final}")
+            raise ValueError
+        elif mes_inicial == "12" and ano_incial == "2021":
+            raise ValueError
+        elif mes_final == "12" and ano_final == "2021":
+            raise ValueError
+        elif anos_validos.index(ano_final) < anos_validos.index(ano_incial):
+            raise IndexError
+        elif ano_final == ano_incial and meses_validos.index(mes_final) < meses_validos.index(mes_inicial):
+            raise IndexError
+        
+    except TypeError:
+        print("Tipo das datas inserido está incorreto, tente inserir a data como uma string, ex: '2015/05'")
+    except NameError:
+        print("Formato das datas inserido está incorreto, revise novamente e tente inserir como ANO/mês, ex: '2015/05'.")
+    except ValueError:
+        print("Formato da data está incorreto ou ela não está entre Janeiro de 2014 e Novembro de 2021, tente inserir como ANO/mês, ex: '2015/05'.")
+    except IndexError:
+        print("A segunda data deve ser maior ou igual a primeira, ex: ('2014/01', '2014/01') ou ('2014/01', '2016/02')")
+
+    except Exception as err:
+        print("Outro erro encontrado:", err)
+
 
 def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
     lista_datas = []
@@ -63,8 +101,9 @@ def download_data_sep_by_months(data_incial: str, data_final: str, caminho: str)
 
 if __name__ == "__main__":
     # Baixando os dados para que eles fiquem salvos para futuras manipulações
-    esse_caminho = os.path.dirname(os.path.abspath(__file__))
-    caminho_completo = os.path.join(esse_caminho, "..", "dados")
+    # esse_caminho = os.path.dirname(os.path.abspath(__file__))
+    # caminho_completo = os.path.join(esse_caminho, "..", "dados")
 
-    download_data_sep_by_months("2014/01", "2021/11", caminho_completo)
+    # download_data_sep_by_months("2014/01", "2021/11", caminho_completo)
 
+    # validacao_datas("2015/05", "2015/04")
