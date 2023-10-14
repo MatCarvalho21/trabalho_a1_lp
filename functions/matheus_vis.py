@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import numpy as np 
 import doctest
+import imageio
 
 lista_de_anabolizantes = ["TESTOSTERONA",
                             "ESTANOZOLOL",
@@ -35,10 +36,12 @@ def grafico_animado(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_anal
     ano_analizado
         type: int
         description: o número do mês que vamos plotar 
+        example: 2015
 
     mes_analizado
         type: int
         description: o número do ano que vamos plotar
+        example: 5
 
     Test
     ----------
@@ -118,6 +121,51 @@ def grafico_animado(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_anal
     
     # confirmação do processo
     print(f"{ano_analizado}, {mes_analizado} concluido")
+
+def animacao_do_grafico(data_inicial:str, data_final:str, path_pasta_imagens:str) -> list:
+    """
+    A função recebe a data_inicial e a data_final, elas criam uma range de imagens, além disso 
+    o path relativo da pasta que contém as imagens em questão. Ela, então, cria uma lista com 
+    as imagens e a retorna para que possam ser concatenadas em um gif. 
+
+    Parameters
+    ----------
+    data_inicial
+        type: str
+        description: inicio da range de datas 
+        example: "2020"
+
+    data_final
+        type: str
+        description: final da range de datas
+        example: "2021"
+
+    path_pasta_imagens
+        type: str
+        description: 
+        example: "root\\folder_01\\final_folder"
+
+    Return
+    ----------
+    lista_de_frames
+        type: list
+        description: lista com as imagens que irão compor o gif da visualização 
+
+
+    Test
+    ----------
+    """
+
+    lista_de_frames = list()
+
+    for cada_ano in range(int(data_inicial), int(data_final) + 1):
+        for cada_mes in range(1, 13):
+            frame = imageio.v2.imread(f"{path_pasta_imagens}\\frame_{cada_ano}_{cada_mes}.png")
+            lista_de_frames.append(frame)
+
+    return lista_de_frames
+
+print(animacao_do_grafico("2014", "2016", "functions\matheus_imagens"))
 
     
 if __name__ == "__main__":
