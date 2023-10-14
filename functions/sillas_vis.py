@@ -24,6 +24,13 @@ def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
     pd.DataFrame
         Dataframe que contém como colunas o atributo e "vendas", sendo as vendas
         a soma da quantidade de observações do atributo.
+
+    Raises
+    ------
+    TypeError
+        Tipo incorreto do dataframe ou do atributo
+    ValueError
+        Coluna do atributo não está na base de dados
     
     Test
     ----------
@@ -70,7 +77,47 @@ def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
 
 
 def mapeia_dados_estaduais(dados_mapeamento:pd.DataFrame, coluna_estados:str,) -> pd.DataFrame:
-        
+    """Função que une um dataframe desejado aos dados relacionados ao formato dos estados brasileiros da biblioteca geobr
+
+    A blblioteca geobr disponibiliza o formato dos estados brasileiros que auxiliam na plotagem do matplotlib,
+    esta função apenas une a base de dados desejada à base do geobr, para isto, a base de dados desejada deve conter
+    uma coluna com a silga dos estados, ex: "SP", "RJ", etc...
+
+    Parameters
+    ----------
+    dados_mapeamento : pd.DataFrame
+        base de dados desejada para a união
+    coluna_estados : str
+        coluna com a silga dos estados
+
+    Returns
+    -------
+    pd.DataFrame
+        dataframe com os dados do geobr uniados a base de dados desejada
+
+    Raises
+    ------
+    TypeError
+        Tipo incorreto do dataframe ou do nome da coluna
+    ValueError
+        Coluna não está na base de dados
+    
+    Test
+    ----------
+    >>> dados = pd.DataFrame({"PINCIPIO_ATIVO": ["CLOROQUINA", "DIFOSFATO DE CLOROQUINA", "HIDROXICLOROQUINA", "CLOROQUINA"], "UF": ["SP", "RJ", "CE", "MS"]})
+    >>> type(mapeia_dados_estaduais(dados, "UF"))
+    <class 'geopandas.geodataframe.GeoDataFrame'>
+    
+    >>> mapeia_dados_estaduais(66, "UF")
+    Dataframe ou coluna de estados inválida, tente inserir outro dataframe ou a coluna como string.
+    
+    >>> mapeia_dados_estaduais(dados, 13)
+    Dataframe ou coluna de estados inválida, tente inserir outro dataframe ou a coluna como string.
+
+    >>> mapeia_dados_estaduais(dados, "COLUNA_INVÁLIDA")
+    Coluna não encontrada no Dataframe, tente inserir uma coluna válida do dataframe.
+
+    """
     try:
         # Valida a base de dados e o tipo da coluna
         if type(dados_mapeamento) != pd.DataFrame or type(coluna_estados) != str:
