@@ -70,7 +70,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
 
     grafico1.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
     grafico1.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
-    grafico1.set_ylim(bottom=0, top=15000)
+    grafico1.set_ylim(bottom=0, top=30000)
     grafico1.axhline(y=np.nanmean(numero_vendas_testosterona), color="red", linestyle='--', linewidth=1.5, label='Média')
     grafico1.legend()
     grafico1.set_title("Testosterona")
@@ -86,7 +86,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
 
     grafico2.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_estanozolol, color="midnightblue")
     grafico2.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_estanozolol, color="midnightblue")
-    grafico2.set_ylim(bottom=0, top=1500)
+    grafico2.set_ylim(bottom=0, top=3000)
     grafico2.axhline(y=np.nanmean(numero_vendas_estanozolol), color="red", linestyle='--', linewidth=1.5, label='Média')
     grafico2.legend()
     grafico2.set_title("Estanozolol")
@@ -102,7 +102,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
 
     grafico3.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_nandrolona, color="midnightblue")
     grafico3.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_nandrolona, color="midnightblue")
-    grafico3.set_ylim(bottom=0, top=150)
+    grafico3.set_ylim(bottom=0, top=300)
     grafico3.axhline(y=np.nanmean(numero_vendas_nandrolona), color="red", linestyle='--', linewidth=1.5, label='Média')
     grafico3.legend()
     grafico3.set_title("Nandrolona")
@@ -119,9 +119,6 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
                )
     
     plt.close()
-    
-    # confirmação do processo
-    print(f"{ano_analizado}, {mes_analizado} concluido")
 
 def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) -> list:
     """
