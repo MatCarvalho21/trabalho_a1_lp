@@ -4,6 +4,35 @@ import imageio
 
 
 def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_names="Manipulados", filtered_columns=None) -> pd.DataFrame:
+    """
+    Concatena todos os dados de CSVs de dados entre as datas dadas e retorna um dataframe Pandas
+    O formato do nome dos arquivos devem ser 'nomedabase_ano_mes.csv'
+
+
+    Parameters
+    ----------
+    start_date
+        type: str
+        description: inicio da range de datas 
+        example: "2014-01"
+
+    end_date
+        type: str
+        description: final da range de datas
+        example: "2021-11"
+
+    path
+        type: str
+        description: caminho da pasta com os arquivos
+        example: "dados/"
+
+    Return
+    ----------
+    dataset
+        type: pandas.Dataframe
+        description: dataframe com todos os dados concatenados
+    """
+
     dates = get_dates_between_dates(start_date, end_date)
     first_date = dates[0]
 
@@ -126,6 +155,30 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
 
 
 def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: str, valores_procurados: list or str) -> pd.DataFrame:
+    """
+    Modifica e retorna o dataframe com apenas as linhas que possuem o valor procurado na coluna especificada.
+
+    Parameters
+    ----------
+    dados
+        type: pandas.Dataframe
+        description: dataframe a ser modificado
+    
+    coluna_do_valor
+        type: str
+        description: nome da coluna em que o valor deve estar 
+
+    valores_procurados
+        type: list or str
+        description: valores que vão ser procurados na coluna e mantidos
+        example: ["CLOROQUINA", "DISFOSFATO DE CLOROQUINA"]
+    
+    Return
+    ----------
+    dados
+        type: pandas.Dataframe
+        description: dataframe com apenas as linhas que contém o valor desejado
+    """
     if type(valores_procurados) == list:
         dados = dados[dados[coluna_do_valor].isin(valores_procurados)]
     elif type(valores_procurados) == str:
