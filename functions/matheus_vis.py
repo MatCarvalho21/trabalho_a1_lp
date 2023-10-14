@@ -218,4 +218,3 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
 
 if __name__ == "__main__":
     doctest.testmod()
-    pass
