@@ -3,7 +3,7 @@ import pandas as pd
 import imageio
 
 
-def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_names="Manipulados", filtered_columns=None) -> pd.DataFrame:
+def concat_data_by_dates(start_date:str, end_date:str, path:str ="dados", file_names:str ="Manipulados", filtered_columns:list =None) -> pd.DataFrame:
     dates = get_dates_between_dates(start_date, end_date)
     first_date = dates[0]
 

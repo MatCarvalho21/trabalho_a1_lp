@@ -5,7 +5,7 @@ import utils
 from get_data import get_dates_between_dates
 
 
-def soma_vendas_por_atributo(dados: pd.DataFrame, atributo: str) -> pd.DataFrame:
+def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
     soma_vendas = pd.DataFrame()
     vendas_totais = dados.value_counts(atributo)
 
@@ -15,7 +15,7 @@ def soma_vendas_por_atributo(dados: pd.DataFrame, atributo: str) -> pd.DataFrame
     return soma_vendas
 
 
-def mapeia_dados_estaduais(dados_mapeamento: pd.DataFrame, coluna_estados: str,) -> pd.DataFrame:
+def mapeia_dados_estaduais(dados_mapeamento:pd.DataFrame, coluna_estados:str,) -> pd.DataFrame:
     dados_estaduais = geobr.read_state()
     dados_estaduais.rename(columns={"abbrev_state": coluna_estados}, inplace=True)
 
@@ -24,7 +24,7 @@ def mapeia_dados_estaduais(dados_mapeamento: pd.DataFrame, coluna_estados: str,)
     return dados_resultantes
 
 
-def gera_visualizacao_cloroquina(dados: pd.DataFrame, coluna_principio_ativo="PRINCIPIO_ATIVO",
+def gera_visualizacao_cloroquina(dados:pd.DataFrame, coluna_principio_ativo:str ="PRINCIPIO_ATIVO",
                                  coluna_estados="UF_VENDA", cmap="plasma", vmax=500, show_figure=False) -> plt.Axes:
     principios_ativos_cloroquina = [
         "CLOROQUINA",
@@ -53,7 +53,7 @@ def gera_visualizacao_cloroquina(dados: pd.DataFrame, coluna_principio_ativo="PR
     return ax
 
 
-def visualizacao_sillas(data_inicial: str, data_final: str, pasta_imagens: str, save_fig=True) -> plt.Axes:
+def visualizacao_sillas(data_inicial:str, data_final:str, pasta_imagens:str, save_fig:bool =True) -> plt.Axes:
     datas = get_dates_between_dates(data_inicial, data_final)
     meses = {
         "01": 'Janeiro',

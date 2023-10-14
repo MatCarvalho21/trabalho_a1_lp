@@ -10,7 +10,7 @@ import os
 import doctest
 
 
-def validacao_datas(data_inicial: str, data_final: str) -> True:
+def validacao_datas(data_inicial:str, data_final:str) -> True:
     """Recebe duas datas e as valida para o formato desejado.
 
     Duas strings de datas, sendo que os primeiros 4 dígitos devem ser do ano e os últimos 2 do mês,
@@ -65,6 +65,7 @@ def validacao_datas(data_inicial: str, data_final: str) -> True:
     anos_validos = ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"]
     meses_validos = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     try:
+        # Checa se o tipo da data é válido.
         if type(data_inicial) != str or type(data_final) != str:
             raise TypeError
         if len(data_inicial) < 6 or len(data_final) < 6:
@@ -72,7 +73,8 @@ def validacao_datas(data_inicial: str, data_final: str) -> True:
         
         ano_incial, mes_inicial = data_inicial[:4], data_inicial[-2:]
         ano_final, mes_final = data_final[:4], data_final[-2:]
-
+    
+        # Checa se o formato da data é válido.
         if ano_incial not in anos_validos or mes_inicial not in meses_validos:
             print("Problemas com a primeira data inserida:", f"{ano_incial}/{mes_inicial}")
             raise ValueError
@@ -83,6 +85,7 @@ def validacao_datas(data_inicial: str, data_final: str) -> True:
             raise ValueError
         elif mes_final == "12" and ano_final == "2021":
             raise ValueError
+        # Checa se a data final é maior ou igual a inicial
         elif anos_validos.index(ano_final) < anos_validos.index(ano_incial):
             raise IndexError
         elif ano_final == ano_incial and meses_validos.index(mes_final) < meses_validos.index(mes_inicial):
@@ -103,7 +106,7 @@ def validacao_datas(data_inicial: str, data_final: str) -> True:
         return True
 
 
-def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
+def get_dates_between_dates(data_inicial:str, data_final:str) -> list:
     """Recebe duas datas e retorna uma lista com todas as datas entre essas duas datas.
     
     A segunda data deve ser posterior a primeira, e do formato "AAAA/mm", além disso, as datas devem
@@ -134,9 +137,14 @@ def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
     Problemas com a segunda data inserida: 2030/06
     Formato da data está incorreto ou ela não está entre Janeiro de 2014 e Novembro de 2021, tente inserir como ANO/mês, ex: '2015/05'.
     []
+
+    >>> get_dates_between_dates("2015/01", "2014/06")
+    A segunda data deve ser maior ou igual a primeira, ex: ('2014/01', '2014/01') ou ('2014/01', '2016/02')
+    []
     """
     lista_datas = []
     try:
+        # Valida a data antes de proseguir com o código
         if validacao_datas(data_inicial, data_final) != True:
             raise Exception
     except:
@@ -147,6 +155,7 @@ def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
         ano_final = int(data_final[:4])
         mes_final = int(data_final[-2:])
 
+        # loop para adicionar todas as datas no formato "AAAAmm" à lista.
         while ano_inicial <= ano_final:
             data_atual = f"{ano_inicial}{mes_inicial:02}"
             lista_datas.append(data_atual)
@@ -162,37 +171,90 @@ def get_dates_between_dates(data_inicial: str, data_final: str) -> list:
         return lista_datas
 
 
-def download_csv_by_dates(data_inicial: str, data_final=None, output_file=None) -> pd.DataFrame:
-    if data_final != None:
-        validacao_datas(data_inicial, data_final)
-    else:
-        validacao_datas(data_inicial, data_inicial)
+def download_csv_by_dates(data_inicial:str, data_final:str = None, output_file:str = None) -> pd.DataFrame:
+    """Função para baixar os dados da base de dados pelas datas selecionadas.
 
+    Como todos os dados da base de dados em csv podem ser baixados a partir dos links: 
+    "https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{data}.csv", onde a data
+    se encontra no formato "AAAAmm" (ex: "201401", ou seja, Janeiro de 2014), essa função baixa esses
+    dados através do pandas e os retorna como um dataframe, podendo escolher entre apenas uma data ou todos os
+    dados entre duas datas, é possível também transformá-los em arquivos de saída definindo o
+    output_file, com o caminho e nome do arquivo desejado, o arquivo deve conter ".csv" no final,
+    a base de dados contém registros desde Janeiro de 2014 até Novembro de 2021, por isso,
+    é feita uma validação de datas através da função validacao_datas, e nem sempre o servidor possui resposta.
+
+    Parameters
+    ----------
+    data_inicial : str
+        A data do primeiro registro buscado.
+    data_final : str, optional
+        A data do último registro buscado, by default None
+    output_file : str, optional
+        O caminho e nome do arquivo de saída, by default None
+
+    Returns
+    -------
+    pd.DataFrame
+        O dataframe dos registros da base de dados da data ou datas inseridas.
+
+    Raises
+    ------
+    ValueError
+        O arquivo de saída não é uma string ou não acaba em .csv
+        
+    Test
+    ----------
+    >>> download_csv_by_dates(2021)
+    Tipo das datas inserido está incorreto, tente inserir a data como uma string, ex: '2015/05'
+
+    >>> download_csv_by_dates("2021/01", "2028/12")
+    Problemas com a segunda data inserida: 2028/12
+    Formato da data está incorreto ou ela não está entre Janeiro de 2014 e Novembro de 2021, tente inserir como ANO/mês, ex: '2015/05'.
+
+    >>> download_csv_by_dates("2021/01", output_file=3)
+    O arquivo de saída deve ser uma string e terminar em .csv, ex: 'caminho/meu_arquivo.csv'
+
+    >>> download_csv_by_dates("2021/01", output_file="caminho/test.txt")
+    O arquivo de saída deve ser uma string e terminar em .csv, ex: 'caminho/meu_arquivo.csv'
+
+    """
     try:
+        # Valida a data antes de prosseguir com o código.
+        if data_final != None:
+            if validacao_datas(data_inicial, data_final) != True:
+                raise BaseException
+        else:
+            if validacao_datas(data_inicial, data_inicial) != True:
+                raise BaseException
+        # Valida o arquivo de saída.
+        if output_file != None:
+            if type(output_file) != str:
+                raise ValueError
+            elif output_file[-4:] != ".csv":
+                raise ValueError
+
         dataset = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{data_inicial}.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
 
         if data_final != None:
             dates = get_dates_between_dates(data_inicial, data_final)
-
+            # Concatena os arquivos de diferentes datas se necessário.
             for index in range(1, len(dates)):
                 new_year_data = pd.read_csv(f"https://dados.anvisa.gov.br/dados/SNGPC/Manipulados/EDA_Manipulados_{dates[index]}.csv", delimiter=";", low_memory=False)
                 dataset = pd.concat([dataset, new_year_data])
 
-        if type(output_file) != str:
-            raise ValueError
-        elif output_file[-4:] != ".csv":
-            raise ValueError
         dataset.to_csv(output_file, sep=";", index=False)
+        
+        return dataset
 
     except ValueError:
-        print("O arquivo de saída deve terminar em .csv, ex: 'caminho/meu_arquivo.csv'")
+        print("O arquivo de saída deve ser uma string e terminar em .csv, ex: 'caminho/meu_arquivo.csv'")
     except Exception as err:
         print("Houve um erro:", err)
+    except BaseException:
+        return
 
-    return dataset
 
-
-def download_data_sep_by_months(data_incial: str, data_final: str, caminho: str) -> None:
+def download_data_sep_by_months(data_incial:str, data_final:str, caminho:str) -> None:
     datas_selecionadas = get_dates_between_dates(data_incial, data_final)
 
     for cada_data in datas_selecionadas:
@@ -206,10 +268,10 @@ def download_data_sep_by_months(data_incial: str, data_final: str, caminho: str)
 
 if __name__ == "__main__":
     # Baixando os dados para que eles fiquem salvos para futuras manipulações
-    # esse_caminho = os.path.dirname(os.path.abspath(__file__))
-    # caminho_completo = os.path.join(esse_caminho, "..", "dados")
+    esse_caminho = os.path.dirname(os.path.abspath(__file__))
+    caminho_completo = os.path.join(esse_caminho, "..", "dados")
 
-    # download_data_sep_by_months("2014/01", "2021/11", caminho_completo)
+    # print(download_data_sep_by_months("2014/01", "2023/11", caminho_completo))
 
     doctest.testmod(verbose=True)
-    # print(get_dates_between_dates("2014/01", "2030/06"))
+    # print(download_csv_by_dates("2014/01", "2014/01", output_file="dados/manip"))
