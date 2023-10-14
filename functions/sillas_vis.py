@@ -44,3 +44,4 @@ if __name__ == "__main__":
     # print(dados)
 
     # print(data["UF_VENDA"].value_counts())
+    pass
