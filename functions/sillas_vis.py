@@ -87,7 +87,7 @@ def visualizacao_sillas(data_inicial: str, data_final: str, pasta_imagens: str, 
 if __name__ == "__main__":
     # dados = utils.concat_data_by_dates("2021/01", "2021/01")
 
-    visualizacao_sillas("2020/01", "2020/03", "..")
+    # visualizacao_sillas("2020/01", "2020/03", "..")
 
     # print(data["UF_VENDA"].value_counts())
     pass
