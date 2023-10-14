@@ -122,7 +122,7 @@ def grafico_animado(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_anal
     # confirmação do processo
     print(f"{ano_analizado}, {mes_analizado} concluido")
 
-def animacao_do_grafico(data_inicial:str, data_final:str, path_pasta_imagens:str) -> list:
+def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) -> list:
     """
     A função recebe a data_inicial e a data_final, elas criam uma range de imagens, além disso 
     o path relativo da pasta que contém as imagens em questão. Ela, então, cria uma lista com 
@@ -165,8 +165,39 @@ def animacao_do_grafico(data_inicial:str, data_final:str, path_pasta_imagens:str
 
     return lista_de_frames
 
-print(animacao_do_grafico("2014", "2016", "functions\matheus_imagens"))
+def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:str) -> None:
+    """
+    A função tem como objetivo criar vários frames, separados por ano e por mês, 
+    para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
+    que serão utilizadas para montar a visualização animada.
 
+    Parameters
+    ----------
+    lista_de_frames
+        type: list
+        description: lista com frames que devem compor o gif
     
+    path_folder_for_save
+        type: str
+        description: path da pasta para salvar o arquivo 
+        example: "root\\folder_01\\final_folder"
+
+    output_name
+        type: str
+        description: nome do arquivo que vai ser gerado e salvo
+        example: "meu_gif"
+    """
+    
+    try: 
+        imageio.mimsave(f"{path_folder_for_save}\{output_name}.gif", lista_de_frames, fps=4)
+
+    except PermissionError:
+        print("O caminho fornecido é inválido. Tente novamente.")
+    except ValueError:
+        print("A lista fornecida deveria conter várias imagens para formar o gif. Verifique o parâmetro fornecido.")
+    except:
+        print("Algo deu errado. Verifique a documentação da função e tente novamente.")
+    
+
 if __name__ == "__main__":
     pass
