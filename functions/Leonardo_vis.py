@@ -30,18 +30,15 @@ def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
 
     """
 
+    try:
+        dataframe_selecionado = pd.DataFrame(dataframe_selecionado)
+    except ValueError:
+        return "Não foi inserido um dataframe"
+
     # Gerando o dataframe que contém apenas o Zolpidem
     
-    try:
-        df_hemitartarato_de_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
-    except AttributeError:
-        return "O dataframe não contém a coluna PRINCIPIO_ATIVO"
-
-    try:
-        df_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
-    except AttributeError:
-        return "O dataframe não contém a coluna PRINCIPIO_ATIVO"
-
+    df_hemitartarato_de_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
+    df_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
     df = pd.concat([df_hemitartarato_de_zolpidem, df_zolpidem]).reset_index()
 
     # Contagem por ano
@@ -51,8 +48,6 @@ def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
     df_venda_por_ano = df.groupby("ANO_VENDA")["REMÉDIO_VENDIDO"].sum().sort_values(ascending = False).reset_index()
 
     return df_venda_por_ano
-
-print(dataframe_de_zolpidem(utils.concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"])))
 
 def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFrame:
     """
@@ -91,8 +86,6 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
     plt.show()
 
     return "Visualização finalizada"
-
-# print(visualizacao_leonardo(utils.concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"])))  
 
 if __name__ == "__main__":
     doctest.testmod(verbose = True)
