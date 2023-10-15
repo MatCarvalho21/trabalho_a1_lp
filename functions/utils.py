@@ -80,7 +80,7 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
 
     return lista_de_frames
 
-def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:str, fps:int) -> None:
+def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:str, fps:int) -> str:
     """
     A função tem como objetivo criar vários frames, separados por ano e por mês, 
     para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
@@ -104,7 +104,7 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
 
     Test
     ----------
-    >>> gerador_de_gif(list(), "functions", "nome_genérico")
+    >>> gerador_de_gif(list(), "functions", "nome_genérico", fps=5)
     A lista fornecida deveria conter várias imagens para formar o gif. Verifique o parâmetro fornecido.
     """
 
