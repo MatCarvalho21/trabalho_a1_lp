@@ -1,3 +1,6 @@
+import sys
+sys.path.append("C:\\Users\\mathe\\trabalho_a1_lp\\functions")
+
 import unittest
 import pandas as pd  
 from gifs import seletor_de_frames
