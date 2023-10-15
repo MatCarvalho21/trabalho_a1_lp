@@ -47,17 +47,19 @@ if __name__ == "__main__":
     doctest.testmod()
 """
 
-"""
+def visualizacao_leonardo(dataframe_reduzido: pd.DataFrame) -> pd.DataFrame:
 
-df_venda_por_ano = dataframe_de_zolpidem(df)
+    df_venda_por_ano = dataframe_de_zolpidem(dataframe_reduzido)
 
-# Customização do gráfico
+    # Customização do gráfico
 
-plt.scatter(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], marker="*", c = "Black")
-plt.plot(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], c = "Gray")
-plt.suptitle("Venda de Zolpidem ao Longo dos Anos", fontweight = "bold")
-plt.xlabel("Anos", fontweight = "bold")
-plt.ylabel("Vendas", fontweight = "bold")
-plt.gca().set_facecolor("Beige")
+    plt.scatter(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], marker="*", c = "Black")
+    plt.plot(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], c = "Gray")
+    plt.suptitle("Venda de Zolpidem ao Longo dos Anos", fontweight = "bold")
+    plt.xlabel("Anos", fontweight = "bold")
+    plt.ylabel("Vendas", fontweight = "bold")
+    plt.gca().set_facecolor("Beige")
 
-"""
+    plt.show()
+
+print(visualizacao_leonardo(utils.concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"])))    
