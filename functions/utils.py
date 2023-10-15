@@ -76,9 +76,12 @@ def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_name
 
     else:
         first_date = dates[0]
-
-        dataset = pd.read_csv(f"{path}/{file_names}_{first_date[:4]}_{first_date[-2:]}.csv",
+        try:
+            dataset = pd.read_csv(f"{path}/{file_names}_{first_date[:4]}_{first_date[-2:]}.csv",
                             delimiter=";", low_memory=False)
+        except Exception as err:
+            print("Erro na leitura do arquivo:", err)
+            return None
         # Verifica se o filtro é valido.
         if filtered_columns != None:
             try:

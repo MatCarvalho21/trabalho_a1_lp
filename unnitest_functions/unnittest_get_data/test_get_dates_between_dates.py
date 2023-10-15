@@ -29,6 +29,15 @@ class Test_Get_Dates_Between_Dates(unittest.TestCase):
         self.assertEqual(get_dates_between_dates("2014/01", "2014/01"), ['201401'])
         self.assertEqual(get_dates_between_dates("2021/08", "2021/11"), ['202108', '202109', '202110', '202111'])
 
+    def test_tipo_output(self):
+        """
+        verifica o tipo de retorno da função.
+        """
+        self.assertEqual(type(get_dates_between_dates("2021/11", "2021/11")), list)
+        # Veririca caso haja erro na validação
+        self.assertEqual(type(get_dates_between_dates("2030/11", "2050/5")), list)
+
+
     def test_tipo_data_invalido(self):
         """
         verifica se a função retorna uma lista vazia caso o tipo a data seja inválida,
