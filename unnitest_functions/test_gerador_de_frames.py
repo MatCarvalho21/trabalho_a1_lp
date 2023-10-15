@@ -1,11 +1,3 @@
-import sys
-sys.path.append("C:\\Users\\mathe\\trabalho_a1_lp\\functions")
-
-import unittest
-import pandas as pd  
-from utils import set_anabolizantes
-from matheus_vis import gerador_de_frames
-
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'gerador_de_frames', que pertence 
 ao módulo 'matheus_vis.py'. Para resumir, a função recebe um dataframe tratado, e a data que será analisada, 
@@ -13,6 +5,17 @@ composta pelo ano e pelo mês. O objetivo da função é bem específico, ela n�
 contextos. Ela vai salvar na pasta 'matheus_imagens' o frame gerado com o nome 'frame_{ano}_{mês}.png. Esse
 frame contém um gráfico composto de três subgráficos que abordam a venda de esteroides e anabolizates na data fornecida.
 """
+
+import sys, os
+
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+caminho_functions = os.path.join(esse_caminho, "..", "functions")
+sys.path.append(caminho_functions)
+
+import unittest
+import pandas as pd  
+from utils import set_anabolizantes
+from matheus_vis import gerador_de_frames
 
 # dataframes para testes
 df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)

@@ -1,10 +1,3 @@
-import sys
-sys.path.append("C:\\Users\\mathe\\trabalho_a1_lp\\functions")
-
-import unittest
-import pandas as pd  
-from utils import set_anabolizantes
-
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'set_anabolizantes', que pertence 
 ao módulo 'utils.py'. Para resumir, a função em questão recebe um dataframe bruto, concatenado 
@@ -12,6 +5,17 @@ ou não, desde que seja um dataframe da base de dados dos medicamentos manipulad
 longo do trabalho. Ela vai retornar um dataframe filtrado com apenas os dados referentes aos hormônios 
 esteroides e anabolizantes.
 """
+
+import sys, os
+
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+caminho_functions = os.path.join(esse_caminho, "..", "functions")
+sys.path.append(caminho_functions)
+
+import unittest
+import pandas as pd  
+from utils import set_anabolizantes
+
 
 #dataframes para testes
 df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
