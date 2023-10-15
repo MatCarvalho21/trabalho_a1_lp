@@ -1,10 +1,3 @@
-import sys
-sys.path.append("C:\\Users\\mathe\\trabalho_a1_lp\\functions")
-
-import unittest
-import pandas as pd  
-from gifs import seletor_de_frames
-
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'seletor_de_frames', que pertence 
 ao módulo 'gifs.py'. Para resumir, a função recebe um ano inicial, um ano final e um path para a pasta 
@@ -12,6 +5,16 @@ em questão. Essa pasta deve conter várias imagens, com nomes pré-definidos no
 'frame_{ano}_{mês}.png'. Ele vai selecionar todos os frames nessa range de datas e retornar uma lista
 com eles que será usada em outra função para montar um gif.
 """
+
+import sys, os
+
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+caminho_functions = os.path.join(esse_caminho, "..", "functions")
+sys.path.append(caminho_functions)
+
+import unittest
+import pandas as pd  
+from gifs import seletor_de_frames
 
 class TestSeletorDeFrames(unittest.TestCase):
     """

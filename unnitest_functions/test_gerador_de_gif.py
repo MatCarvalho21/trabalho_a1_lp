@@ -1,18 +1,21 @@
-import sys
-sys.path.append("C:\\Users\\mathe\\trabalho_a1_lp\\functions")
-
-import unittest
-import os
-import pandas as pd  
-from gifs import seletor_de_frames, gerador_de_gif
-
-
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'gerador_de_gif', que pertence 
 ao módulo 'gifs.py'. Para resumir, a função recebe uma lista de frames (imagens), uma pasta onde o gif 
 deverá ser salvo, o nome do arquivo e o fps do gif. Caso tudo corra bem, a função vai salvar um gif
 seguindo os parâmetros fornecidos.
 """
+
+import sys, os
+
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+caminho_functions = os.path.join(esse_caminho, "..", "functions")
+sys.path.append(caminho_functions)
+
+import unittest
+import os
+import pandas as pd  
+from gifs import seletor_de_frames, gerador_de_gif
+
 
 # lista para testes
 lista_de_frames = seletor_de_frames("2014", "2015", "functions\matheus_imagens")
