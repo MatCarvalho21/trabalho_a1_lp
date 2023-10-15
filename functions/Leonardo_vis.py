@@ -1,11 +1,11 @@
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
+
 import pandas as pd 
 import matplotlib.pyplot as plt 
 import utils 
 import doctest
-
-import sys, os
-esse_caminho = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(esse_caminho)
 
 
 def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:

@@ -1,13 +1,13 @@
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
+
 import pandas as pd
 import utils
 import matplotlib.pyplot as plt
 import doctest
 from typing import Literal, Iterable, Optional
 from numpy import datetime64
-
-import sys, os
-esse_caminho = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(esse_caminho)
 
 
 def filtra_e_contatena(coluna_do_valor: str, valores_procurados: list | str) -> pd.DataFrame:
