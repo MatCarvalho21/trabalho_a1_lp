@@ -6,9 +6,6 @@ from get_data import get_dates_between_dates
 import pandas as pd
 import doctest
 
-lista_de_anabolizantes = ["TESTOSTERONA",
-                        "ESTANOZOLOL",
-                        "NANDROLONA"]
 
 def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_names="Manipulados", filtered_columns=None) -> pd.DataFrame:
     """
@@ -110,10 +107,83 @@ def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_name
             dataset = pd.concat([dataset, new_dataset])
 
         return dataset
+
+
+def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: str, valores_procurados: list or str) -> pd.DataFrame:
+    """
+    Modifica e retorna o dataframe com apenas as linhas que possuem o valor procurado na coluna especificada.
+
+    Parameters
+    ----------
+    dados
+        type: pandas.Dataframe
+        description: dataframe a ser modificado
     
-    lista_de_anabolizantes = ["TESTOSTERONA",
-                        "ESTANOZOLOL",
-                        "NANDROLONA"]
+    coluna_do_valor
+        type: str
+        description: nome da coluna em que o valor deve estar 
+
+    valores_procurados
+        type: list or str
+        description: valores que vão ser procurados na coluna e mantidos
+        example: ["CLOROQUINA", "DISFOSFATO DE CLOROQUINA"]
+    
+    Return
+    ----------
+    dados
+        type: pandas.Dataframe
+        description: dataframe com apenas as linhas que contém o valor desejado
+
+    Test
+    ----------
+    >>> dados = pd.DataFrame({"PINCIPIO_ATIVO": ["CLOROQUINA", "DIFOSFATO DE CLOROQUINA", "HIDROXICLOROQUINA", "IBUPROFENO"], "Qnt": [10, 5, 8, 15]})
+    >>> filtra_dados_por_valores_procurados(dados, "PINCIPIO_ATIVO", "CLOROQUINA")["Qnt"][0]
+    10
+
+    >>> filtra_dados_por_valores_procurados(dados, "PINCIPIO_ATIVO", ["CLOROQUINA", "HIDROXICLOROQUINA"])["Qnt"]
+    0    10
+    2     8
+    Name: Qnt, dtype: int64
+
+    >>> filtra_dados_por_valores_procurados(42, "PINCIPIO_ATIVO", "CLOROQUINA")
+    DataFrame inválido, tente inserir outro DataFrame.
+
+    >>> filtra_dados_por_valores_procurados(dados, 66, "CLOROQUINA")
+    Tente inserir um nome de coluna válido como string.
+
+    >>> filtra_dados_por_valores_procurados(dados, "COLUNA_INVÁLIDA", "CLOROQUINA")
+    Coluna selecionada inválida, tente inserir o nome de uma coluna do DataFrame.
+
+    """
+    # Chega se o data frame é válido.
+    try:
+        if type(dados) != pd.DataFrame:
+            raise TypeError
+
+    except TypeError:
+        print("DataFrame inválido, tente inserir outro DataFrame.")
+
+    else:
+        # Checa se a coluna é válida.
+        try:
+            if type(coluna_do_valor) != str:
+                raise TypeError
+            elif coluna_do_valor not in dados.columns:
+                raise ValueError
+    
+        except TypeError:
+            print("Tente inserir um nome de coluna válido como string.")
+        except ValueError:
+            print("Coluna selecionada inválida, tente inserir o nome de uma coluna do DataFrame.")
+    
+        else:
+            if type(valores_procurados) == list:
+                dados = dados[dados[coluna_do_valor].isin(valores_procurados)]
+            else:
+                dados = dados[dados[coluna_do_valor] == valores_procurados]
+
+            return dados
+
 
 def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     """
@@ -137,13 +207,17 @@ def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     >>> type(set_anabolizantes(dataframe_geral))
     <class 'pandas.core.frame.DataFrame'>
 
+    >>> dataframe_vazio = pd.DataFrame()
     >>> set_anabolizantes(dataframe_vazio)
     Esse dataframe está no formato incorreto, ele não possui a coluna 'PRINCIPIO_ATIVO'.
 
     >>> set_anabolizantes("Matheus")
     Algo deu errado. Verifique a documentação da função e tente novamente.
     """
-    
+    lista_de_anabolizantes = ["TESTOSTERONA",
+                        "ESTANOZOLOL",
+                        "NANDROLONA"]
+
     try: 
         #filtragem do dataframe
         df_testosterona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[0]].reset_index(drop=True)
@@ -166,11 +240,11 @@ def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
 
     #dataframes para testes
-    df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-    df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-    df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-    dataframe_geral = pd.concat((df_01, df_02, df_03))
-    dataframe_vazio = pd.DataFrame()
+    # df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    # df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    # df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    # dataframe_geral = pd.concat((df_01, df_02, df_03))
+    dataframe_geral = concat_data_by_dates("2014/01", "2014/03", filtered_columns=["PRINCIPIO_ATIVO"])
 
     # print(concat_data_by_dates("2021/01", "2021/02", filtered_columns=["ANO_VENDA"]))
 
