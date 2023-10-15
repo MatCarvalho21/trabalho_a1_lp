@@ -146,7 +146,49 @@ def mapeia_dados_estaduais(dados_mapeamento:pd.DataFrame, coluna_estados:str,) -
 
 
 def gera_visualizacao_cloroquina(dados:pd.DataFrame, coluna_principio_ativo:str ="PRINCIPIO_ATIVO",
-                                 coluna_estados="UF_VENDA", cmap="plasma", vmax=500, show_figure=False) -> plt.Axes:
+                                 coluna_estados="UF_VENDA", cmap="plasma", vmax=400, show_figure=False) -> plt.Axes:
+    """Função que usa a biblioteca geobr e a base de dados de medicamentos manipulados para criar uma plotagem.
+
+    A função recebe os dados pertinentes da análise e cria uma plotagem baseada no número de vendas
+    da Cloroquina e derivados nos estados brasileiros como um heatmap. Em virtude de reduzir
+    outliers, como São Paulo, do heatmap, o vmax, que limita o valor máximo da coloração foi reduzido.
+
+    Parameters
+    ----------
+    dados : pd.DataFrame
+        Dataframe com os dados a serem análisados
+    coluna_principio_ativo : str, optional
+        Coluna do data frame que vai ser contabilizada nos estados, by default "PRINCIPIO_ATIVO"
+    coluna_estados : str, optional
+        Coluna dos estados como siglas, ex: "SP", by default "UF_VENDA"
+    cmap : str, optional
+        Color map da visualização, deve ser um color map válido do matplotlib, by default "plasma"
+    vmax : int, optional
+        Valor máximo do heatmap, by default 400
+    show_figure : bool, optional
+        Opção para exibir a figura gerada automaticamente, by default False
+
+    Returns
+    -------
+    plt.Axes
+        A figura gerada pela plotagem.
+
+    Raises
+    ------
+    TypeError
+        Tipo do dataframe inválido.
+    ValueError
+        Colunas de estados e do princípio ativo fora da base de dados.
+        
+    Test
+    ----------
+    >>> gera_visualizacao_cloroquina(3)
+    Dataframe inválido, tente inserir Dataframe.
+
+    >>> gera_visualizacao_cloroquina(pd.DataFrame())
+    Coluna de estados e da contabilização de vendas devem ser colunas válidas do Dataframe. Tente inserir novas colunas.
+
+    """
     principios_ativos_cloroquina = [
         "CLOROQUINA",
         "DIFOSFATO DE CLOROQUINA",
@@ -156,22 +198,37 @@ def gera_visualizacao_cloroquina(dados:pd.DataFrame, coluna_principio_ativo:str 
         "SULFATO DE CLOROQUINA",
     ]
     fig, ax = plt.subplots(figsize=(10, 10))
-
-    dados_filtrados = utils.filtra_dados_por_valores_procurados(dados, coluna_principio_ativo, principios_ativos_cloroquina)
-    soma_vendas = soma_vendas_por_atributo(dados_filtrados, coluna_estados)
-    dados_estaduais = mapeia_dados_estaduais(soma_vendas, coluna_estados)
-
-    dados_estaduais["vendas"] = dados_estaduais["vendas"].fillna(0)
+    # filtra para apenas os dados com cloroquina
+    try:
+        if type(dados) != pd.DataFrame:
+            raise TypeError
+        elif coluna_estados not in dados.columns or coluna_principio_ativo not in dados.columns:
+            raise ValueError
     
-    dados_estaduais.plot(column="vendas", cmap=cmap, vmax=vmax, vmin=0, ax=ax, legend=True, edgecolor='k')
+    except TypeError:
+        print("Dataframe inválido, tente inserir Dataframe.")
+    except ValueError:
+        print("Coluna de estados e da contabilização de vendas devem ser colunas válidas do Dataframe. Tente inserir novas colunas.")
 
-    fig.set_size_inches(8, 5.5)
-    ax.axis('off')
+    else:
+        dados_filtrados = utils.filtra_dados_por_valores_procurados(dados, coluna_principio_ativo, principios_ativos_cloroquina)
+        # contabiliza a soma das vendas destes remédios por estado
+        soma_vendas = soma_vendas_por_atributo(dados_filtrados, coluna_estados)
+        # une a soma das vendas aos dados estaduais da biblioteca geobr
+        dados_estaduais = mapeia_dados_estaduais(soma_vendas, coluna_estados)
 
-    if show_figure == True:
-        plt.show()
+        # preenche como 0 os valores nulos para que eles continuam aparecendo no mapa
+        dados_estaduais["vendas"] = dados_estaduais["vendas"].fillna(0)
+        # cria uma plotagem do brasil com a quantidade de vendas em cada estado
+        dados_estaduais.plot(column="vendas", cmap=cmap, vmax=vmax, vmin=0, ax=ax, legend=True, edgecolor='k')
+        # ajeita as proporções da plotagem
+        fig.set_size_inches(8, 5.5)
+        ax.axis('off')
 
-    return ax
+        if show_figure == True:
+            plt.show()
+
+        return ax
 
 
 def visualizacao_sillas(data_inicial:str, data_final:str, pasta_imagens:str, save_fig:bool =True) -> plt.Axes:
@@ -208,7 +265,6 @@ def visualizacao_sillas(data_inicial:str, data_final:str, pasta_imagens:str, sav
 if __name__ == "__main__":
     # dados = utils.concat_data_by_dates("2021/01", "2021/01")
 
-    # visualizacao_sillas("2020/01", "2020/03", "..")
-
+    # visualizacao_sillas("2020/01", "2021/03", "..")
     # print(data["UF_VENDA"].value_counts())
     doctest.testmod(verbose=True)
