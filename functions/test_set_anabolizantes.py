@@ -1,6 +1,6 @@
 import unittest
 import pandas as pd  
-from dados_anabolizantes import set_anabolizantes
+from utils import set_anabolizantes
 
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'set_anabolizantes', que pertence 
