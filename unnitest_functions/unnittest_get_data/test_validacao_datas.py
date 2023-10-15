@@ -51,6 +51,7 @@ class Test_Validacao_Datas(unittest.TestCase):
         verifica se a função não valida uma data fora do intervalo.
         """
         self.assertIsNone(validacao_datas("2014/01", "2022/01"))
+        self.assertIsNone(validacao_datas("2014/15", "2020/01"))
 
 
 if __name__ == "__main__":
