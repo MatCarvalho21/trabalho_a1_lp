@@ -1,13 +1,13 @@
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
+
 import pandas as pd
 import utils
 import matplotlib.pyplot as plt
 import doctest
 from typing import Literal, Iterable, Optional
 from numpy import datetime64
-
-import sys, os
-esse_caminho = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(esse_caminho)
 
 
 def filtra_e_contatena(coluna_do_valor: str, valores_procurados: list | str) -> pd.DataFrame:
@@ -274,9 +274,14 @@ def luciano_vis(acao: Literal["show", "save", None], path: str|None = None):
     Valores válidos: 'show', 'save', None
 
     """
+
+
     if acao not in ["show", "save", None]:
         raise ValueError(f"Ação '{acao}' inválida. \nValores válidos: 'show', 'save', None")
     
+    if acao == "save" and type(path) != str:
+        raise ValueError(f"Especifique um caminho para salvar o arquivo.")
+
     principios_de_antidepressivos = ["SELEGILINA","SERTRALINA", "AMITRIPTILINA", "CITALOPRAM",
                                      "CLOMIPRAMINA", "IPRONIAZIDA", "MOCLOBEMIDA", "IMIPRAMINA",
                                      "TRIMIPRAMINA", "NORTRIPTILINA", "PROTRIPTILINA", "DOXEPINA",
@@ -320,7 +325,7 @@ def luciano_vis(acao: Literal["show", "save", None], path: str|None = None):
         plt.show()
         plt.close()
     elif acao == "save":
-        plt.save(path)
+        plt.savefig(path)
         plt.close()
 
 
