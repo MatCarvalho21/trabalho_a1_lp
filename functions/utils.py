@@ -55,7 +55,6 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
         type: list
         description: lista com as imagens que irão compor o gif da visualização 
 
-
     Test
     ----------
     >>> seletor_de_frames("2014", "2016", "pasta_inexistente")
@@ -74,6 +73,7 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
     except FileNotFoundError:
         print("Não foi possível encontrar nenhum frame. Certifique de que o caminho fornecido está correto.")
         lista_de_frames = None
+        
     except:
         print("Algo deu errado. Verifique a documentação da função e tente novamente.")
         lista_de_frames = None
@@ -117,5 +117,3 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
         print("A lista fornecida deveria conter várias imagens para formar o gif. Verifique o parâmetro fornecido.")
     except:
         print("Algo deu errado. Verifique a documentação da função e tente novamente.")
-
-
