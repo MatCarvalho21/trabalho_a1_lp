@@ -320,7 +320,7 @@ def luciano_vis(acao: Literal["show", "save", None], path: str|None = None):
         plt.show()
         plt.close()
     elif acao == "save":
-        plt.save(path)
+        plt.savefig(path)
         plt.close()
 
 
