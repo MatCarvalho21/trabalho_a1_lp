@@ -2,10 +2,41 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import numpy as np 
 import doctest
+from dados_anabolizantes import set_anabolizantes
 
 """Esse módulo conta com três funções. Todas elas estão ligadas à contrução da visualização sobre a evolução
 no uso de anabolizantes. A função contida nesse módulo vai ter como objetivo gerar os frames que serão
 usados para contruir a visualização final."""
+
+# dataframes para teste
+df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+dataframe_geral = pd.concat((df_01, df_02, df_03))
+dataframe_teste = set_anabolizantes(dataframe_geral)
+
+dados = {'Nome': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+        'Idade': [25, 30, 22, 35, 28],
+        'Cidade': ['Nova York', 'Los Angeles', 'Chicago', 'Houston', 'Miami']}
+dataframe_invalido = pd.DataFrame(dados)
+
+lista_de_colunas = ['ANO_VENDA',
+                    'MES_VENDA', 
+                    'UF_VENDA', 
+                    'MUNICIPIO_VENDA', 
+                    'DCB', 
+                    'PRINCIPIO_ATIVO', 
+                    'QTD_ATIVO_POR_UNID_FARMACOTEC', 
+                    'UNIDADE_MEDIDA_PRINCIPIO_ATIVO', 
+                    'QTD_UNIDADE_FARMACOTECNICA', 
+                    'TIPO_UNIDADE_FARMACOTECNICA', 
+                    'CONSELHO_PRESCRITOR', 
+                    'UF_CONSELHO_PRESCRITOR', 
+                    'TIPO_RECEITUARIO', 
+                    'CID10', 
+                    'SEXO', 
+                    'IDADE', 
+                    'UNIDADE_IDADE']
 
 lista_de_anabolizantes = ["TESTOSTERONA",
                             "ESTANOZOLOL",
@@ -24,7 +55,7 @@ x_meses = {"Janeiro": 1,
             "Novembro": 11,
             "Dezembro": 12}
 
-def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_analizado:int) -> None:
+def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_analizado:int) -> str:
     """
     A função tem como objetivo criar vários frames, separados por ano e por mês, 
     para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
@@ -48,7 +79,49 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
 
     Test
     ----------
+    >>> gerador_de_frames("Matheus", 2014, 5)
+    'Não foi fornecido um dataframe.'
+
+    >>> gerador_de_frames(pd.DataFrame(), 2014, 5)
+    'O dataframe está vazio.'
+
+    >>> gerador_de_frames(dataframe_invalido, 2014, 5)
+    'O dataframe fornecido está em um formato inválido'
+
+    >>> gerador_de_frames(dataframe_teste, "matheus", 5)
+    'O ano fornecido deve ser um inteiro.'
+
+    >>> gerador_de_frames(dataframe_teste, 2015, "matheus")
+    'O mês fornecido deve ser um inteiro'
     """
+
+    try:
+        dataframe_filtrado = pd.DataFrame(dataframe_filtrado)
+    except ValueError:
+        return "Não foi fornecido um dataframe."
+    
+    try: 
+        if dataframe_filtrado.shape == (0,0):
+            raise AttributeError
+    except AttributeError:
+        return "O dataframe está vazio."
+
+    try:
+        if list(dataframe_filtrado.columns) != lista_de_colunas:
+            raise AttributeError
+    except AttributeError:
+        return "O dataframe fornecido está em um formato inválido"
+
+    try:
+        ano_analizado = int(ano_analizado)
+    except ValueError:
+        return "O ano fornecido deve ser um inteiro."
+    
+    try:
+        mes_analizado = int(mes_analizado)
+    except ValueError:
+        return "O mês fornecido deve ser um inteiro"
+        
 
     # filtragem e configuração do dataframe
     dataframe_filtrado["NUMERO_DE_VENDAS"] = 1
@@ -120,6 +193,8 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
                )
     
     plt.close()
+
+    return "Deu tudo certo!"
 
 if __name__ == "__main__":
     doctest.testmod()

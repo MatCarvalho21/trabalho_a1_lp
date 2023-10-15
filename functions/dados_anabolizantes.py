@@ -31,8 +31,7 @@ def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
     Esse dataframe está no formato incorreto, ele não possui a coluna 'PRINCIPIO_ATIVO'.
 
     >>> set_anabolizantes("Matheus")
-    Algum erro inesperado aconteceu, verifique a base de dados.
-
+    Algo deu errado. Verifique a documentação da função e tente novamente.
     """
     
     try: 
@@ -68,9 +67,7 @@ if __name__ == "__main__":
     df_10 = pd.read_csv("dados\Manipulados_2014_10.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
     df_11 = pd.read_csv("dados\Manipulados_2014_11.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
     df_12 = pd.read_csv("dados\Manipulados_2014_12.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-
     dataframe_geral = pd.concat((df_01, df_02, df_03, df_04, df_05, df_06, df_07, df_08, df_09, df_10, df_11, df_12))
-
     dataframe_vazio = pd.DataFrame()
 
     doctest.testmod()
