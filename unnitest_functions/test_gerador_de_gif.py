@@ -1,7 +1,11 @@
+import sys
+sys.path.append("C:\\Users\\mathe\\trabalho_a1_lp\\functions")
+
 import unittest
 import os
 import pandas as pd  
 from gifs import seletor_de_frames, gerador_de_gif
+
 
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'gerador_de_gif', que pertence 
