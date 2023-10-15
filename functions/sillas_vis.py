@@ -1,3 +1,9 @@
+"""Módulo de visualização do integrande Sillas Rocha, possui 4 funções
+que servem para explorar a base de dados e fazer plotagens relacionando
+as vendas de remédios Manipulados de cloroquina por estado, nas datas
+selecionadas, e por fim, salvar essas plotagens em alguma imagem.
+"""
+
 import geobr
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -232,6 +238,39 @@ def gera_visualizacao_cloroquina(dados:pd.DataFrame, coluna_principio_ativo:str 
 
 
 def visualizacao_sillas(data_inicial:str, data_final:str, pasta_imagens:str, save_fig:bool =True) -> plt.Axes:
+    """Gera imagens a partir de duas datas, da base de dados e da função gera_visualizacao_cloroquina.
+
+    A visualização final se baseia em mostrar o aumento da procura por cloroquina com o passar do tempo,
+    por isso, esta função receberá duas datas, uma inicial e uma final, e as converterá em visualizações
+    da cloroquina para cada data entre estas duas datas, de entrada, além disso é necessário informar o
+    diretório em que as pastas ficarão salvas.
+
+    Parameters
+    ----------
+    data_inicial : str
+        Data inicial da amostragem de dados
+    data_final : str
+        Data final da amostragem de dados
+    pasta_imagens : str
+        Diretório onde as imagens serão salvas
+    save_fig : bool, optional
+        Define se as imagens serão salvas ou não, by default True
+
+    Raises
+    ------
+    IndexError
+        Valida as datas de entrada.
+    
+    Test
+    ----------
+    >>> visualizacao_sillas("2014/01", "2014/01", "DIRETÓRIO_INVÁLIDO")
+    Não foi possível salvar frame_2014_1.png, erro: [Errno 2] No such file or directory: 'DIRETÓRIO_INVÁLIDO/frame_2014_1.png'
+
+    >>> visualizacao_sillas("2013/01", "2015/02", "seu_caminho")
+    Problemas com a primeira data inserida: 2013/01
+    Formato da data está incorreto ou ela não está entre Janeiro de 2014 e Novembro de 2021, tente inserir como ANO/mês, ex: '2015/05'.
+    
+    """
     datas = get_dates_between_dates(data_inicial, data_final)
     meses = {
         "01": 'Janeiro',
@@ -248,23 +287,31 @@ def visualizacao_sillas(data_inicial:str, data_final:str, pasta_imagens:str, sav
         "12": 'Dezembro'
     }
 
-    for cada_data in datas:
-        ano, mes = cada_data[:4], cada_data[-2:]
+    try:
+        if datas == []:
+            raise IndexError
+    except IndexError:
+        pass
+    else:
+        for cada_data in datas:
+            ano, mes = cada_data[:4], cada_data[-2:]
 
-        dados = utils.concat_data_by_dates(cada_data, cada_data)
+            dados = utils.concat_data_by_dates(cada_data, cada_data)
 
-        ax = gera_visualizacao_cloroquina(dados=dados)
-        ax.set_title(label=f"Venda de Cloroquina (e derivados) em\n{meses[mes]} de {ano}", loc="right")
+            ax = gera_visualizacao_cloroquina(dados=dados)
+            ax.set_title(label=f"Venda de Cloroquina (e derivados) em\n{meses[mes]} de {ano}", loc="right")
 
-        if save_fig == True:
-            plt.savefig(f"{pasta_imagens}/frame_{cada_data[:4]}_{int(cada_data[-2:])}.png", dpi=500)
-
-    return ax
+            if save_fig == True:
+                nome_frame = f"frame_{cada_data[:4]}_{int(cada_data[-2:])}.png"
+                try:
+                    plt.savefig(f"{pasta_imagens}/{nome_frame}", dpi=500)
+                except Exception as err:
+                    print(f"Não foi possível salvar {nome_frame}, erro:", err)
 
 
 if __name__ == "__main__":
     # dados = utils.concat_data_by_dates("2021/01", "2021/01")
 
-    # visualizacao_sillas("2020/01", "2021/03", "..")
+    # print(visualizacao_sillas("2020/01", "2021/11", ".."))
     # print(data["UF_VENDA"].value_counts())
     doctest.testmod(verbose=True)
