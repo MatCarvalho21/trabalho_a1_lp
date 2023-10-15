@@ -49,7 +49,7 @@ a:hover{
 }
 
 #home{
-    width: 14vw;
+    width: 12vw;
     height: 100%;
     border-top-left-radius: 10px;
     overflow: hidden;
@@ -66,7 +66,7 @@ a:hover{
 }
 
 #leonardo{
-    width: 14vw;
+    width: 12vw;
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -82,7 +82,7 @@ a:hover{
 }
 
 #luciano{
-    width: 14vw;
+    width: 12vw;
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -98,7 +98,7 @@ a:hover{
 }
 
 #matheus{
-    width: 14vw;
+    width: 12vw;
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -115,7 +115,7 @@ a:hover{
 
 
 #sillas{
-    width: 14vw;
+    width: 12vw;
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -131,7 +131,23 @@ a:hover{
 }
 
 #repositorio{
-    width: 14vw;
+    width: 12vw;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#repositorio:hover{
+    background-color: #246a99;
+}
+
+#sphinx{
+    width: 12vw;
     height: 100%;
     border-top-right-radius: 10px;
     overflow: hidden;
@@ -143,7 +159,7 @@ a:hover{
     font-size: 2.5vh;
 }
 
-#repositorio:hover{
+#sphinx:hover{
     background-color: #246a99;
 }
 
