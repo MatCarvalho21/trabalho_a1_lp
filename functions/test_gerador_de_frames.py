@@ -1,6 +1,6 @@
 import unittest
 import pandas as pd  
-from dados_anabolizantes import set_anabolizantes
+from utils import set_anabolizantes
 from matheus_vis import gerador_de_frames
 
 """

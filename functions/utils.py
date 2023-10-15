@@ -4,9 +4,11 @@ utilizada na visualização de alguns membros, além da filtragem dos dados.
 
 from get_data import get_dates_between_dates
 import pandas as pd
-import imageio
 import doctest
 
+lista_de_anabolizantes = ["TESTOSTERONA",
+                        "ESTANOZOLOL",
+                        "NANDROLONA"]
 
 def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_names="Manipulados", filtered_columns=None) -> pd.DataFrame:
     """
@@ -108,9 +110,67 @@ def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_name
             dataset = pd.concat([dataset, new_dataset])
 
         return dataset
+    
+    lista_de_anabolizantes = ["TESTOSTERONA",
+                        "ESTANOZOLOL",
+                        "NANDROLONA"]
+
+def set_anabolizantes(dataframe_bruto:pd.DataFrame) -> pd.DataFrame:
+    """
+    A função tem como objetivo receber um dataframe bruto e realizar a filtragem dos dados
+    retornando apenas os registros referentes a medicamentos anabolizantes e esteróides. 
+
+    Parameters
+    ----------
+    dataframe_bruto
+        type: pd.DataFrame
+        description: dataframe completo e referente a todos os medicamentos
+    
+    Return
+    ----------
+    dataframe_final
+        type: pd.DataFrame
+        description: dataframe filtrado apenas com os medicamentos anabolizantes
+
+    Test
+    ----------
+    >>> type(set_anabolizantes(dataframe_geral))
+    <class 'pandas.core.frame.DataFrame'>
+
+    >>> set_anabolizantes(dataframe_vazio)
+    Esse dataframe está no formato incorreto, ele não possui a coluna 'PRINCIPIO_ATIVO'.
+
+    >>> set_anabolizantes("Matheus")
+    Algo deu errado. Verifique a documentação da função e tente novamente.
+    """
+    
+    try: 
+        #filtragem do dataframe
+        df_testosterona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[0]].reset_index(drop=True)
+        df_estanozolol = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[1]].reset_index(drop=True)
+        df_nandrolona = dataframe_bruto[dataframe_bruto["PRINCIPIO_ATIVO"] == lista_de_anabolizantes[2]].reset_index(drop=True)
+
+        #concatenação do dataframe
+        dataframe_final = pd.concat((df_testosterona, df_estanozolol, df_nandrolona)).reset_index(drop=True)
+
+    except KeyError:
+        print("Esse dataframe está no formato incorreto, ele não possui a coluna 'PRINCIPIO_ATIVO'.")
+        dataframe_final = None
+    except:
+        print("Algo deu errado. Verifique a documentação da função e tente novamente.")
+        dataframe_final = None
+    
+    return dataframe_final
 
 
 if __name__ == "__main__":
+
+    #dataframes para testes
+    df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    dataframe_geral = pd.concat((df_01, df_02, df_03))
+    dataframe_vazio = pd.DataFrame()
 
     # print(concat_data_by_dates("2021/01", "2021/02", filtered_columns=["ANO_VENDA"]))
 

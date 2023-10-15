@@ -173,3 +173,6 @@ def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: st
                 dados = dados[dados[coluna_do_valor] == valores_procurados]
 
             return dados
+        
+if __name__ == "__main__":
+    doctest.testmod()
