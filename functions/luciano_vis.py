@@ -33,10 +33,11 @@ def cria_datetime(dataframe: pd.DataFrame) -> pd.Series:
 
     Retorna:
         datetimes (pd.Series): série do Pandas com as datas em formato datetime.
+    
     '''
     datetimes = {"Year": dataframe["ANO_VENDA"],
-                 "Month": dataframe["MES_VENDA"],
-                 "Day": ["1"]*len(dataframe.index)}
+                "Month": dataframe["MES_VENDA"],
+                "Day": ["1"]*len(dataframe.index)}
     
     return pd.to_datetime(datetimes)
 
@@ -57,6 +58,11 @@ def regiao_estado(sigla_estado: str) -> str:
         Tipo: str
         Descrição: Região em que o estado brasileiro está.
         Exemplo: Sudeste
+    
+    Exemplos
+    ----------
+    >>> regiao_estado("RR")
+    'Norte'
     """
 
     estados = {
@@ -167,12 +173,20 @@ def contagem_elementos(dataframe: pd.DataFrame, elemento_contado: str, nome_da_s
         Tipo: str
         Descrição: nome da série a ser retornada
     
-    Retorna:
+    Retorna
     --------
     contagem:
         Tipo: pandas.Series
         Descrição: série do pandas com as informações feitas
     
+    Exemplos
+    --------
+    >>> contagem_elementos(pd.DataFrame({"NOME": ["A", "B", "B"]}), "NOME", "SERIE EXEMPLO")
+    NOME
+    A    1
+    B    2
+    Name: SERIE EXEMPLO, dtype: int64
+
     """
 
     dataframe = dataframe.copy() # Para não alterar o dataframe original
@@ -226,5 +240,5 @@ def luciano_vis():
                                     tuple(contagem.columns), titulo = "ANTIDEPRESSIVOS POR REGIÃO")
 
 if __name__ == "__main__":
-    pass
+    doctest.testmod(verbose=True)
     
