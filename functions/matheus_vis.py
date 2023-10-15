@@ -2,16 +2,15 @@
 no uso de anabolizantes. A função contida nesse módulo vai ter como objetivo gerar os frames que serão
 usados para contruir a visualização final."""
 
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
+
 import pandas as pd  
 import matplotlib.pyplot as plt 
 import numpy as np 
 import doctest
 from utils import set_anabolizantes
-
-import sys, os
-esse_caminho = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(esse_caminho)
-
 
 # dataframes para teste
 df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)

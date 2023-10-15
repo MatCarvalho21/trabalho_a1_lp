@@ -4,6 +4,9 @@ Para a plena execução deste módulo, é necessário ter certeza de que o domí
 https://dados.gov.br/dados/conjuntos-dados/venda-de-medicamentos-controlados-e-antimicrobianos---medicamentos-manipulados
 se encontra em pleno funcionamente e não está fora do ar, além disso, não houve alteração na forma como os dados são armazenados.
 """
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
 
 import pandas as pd
 import os
@@ -295,7 +298,7 @@ def download_data_sep_by_months(data_incial:str, data_final:str, caminho:str) ->
     except TypeError:
         print("Caminho deve ser uma string, tente iserir outro caminho.")
     except ValueError:
-        pass
+        return
     else:
         for cada_data in datas_selecionadas:
             nome_arquivo = f"Manipulados_{cada_data[:4]}_{cada_data[-2:]}.csv"

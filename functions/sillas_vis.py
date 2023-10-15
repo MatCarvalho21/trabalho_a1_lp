@@ -4,17 +4,16 @@ as vendas de remédios Manipulados de cloroquina por estado, nas datas
 selecionadas, e por fim, salvar essas plotagens em alguma imagem.
 """
 
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
+
 import geobr
 import pandas as pd
 import matplotlib.pyplot as plt
 import doctest
 import utils
 from get_data import get_dates_between_dates
-
-import sys, os
-esse_caminho = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(esse_caminho)
-
 
 def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
     """Função que soma algum atributo de um dataframe.
