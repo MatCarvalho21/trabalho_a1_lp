@@ -269,9 +269,14 @@ def luciano_vis(acao: Literal["show", "save", None], path: str|None = None):
     Valores válidos: 'show', 'save', None
 
     """
+
+
     if acao not in ["show", "save", None]:
         raise ValueError(f"Ação '{acao}' inválida. \nValores válidos: 'show', 'save', None")
     
+    if acao == "save" and type(path) != str:
+        raise ValueError(f"Especifique um caminho para salvar o arquivo.")
+
     principios_de_antidepressivos = ["SELEGILINA","SERTRALINA", "AMITRIPTILINA", "CITALOPRAM",
                                      "CLOMIPRAMINA", "IPRONIAZIDA", "MOCLOBEMIDA", "IMIPRAMINA",
                                      "TRIMIPRAMINA", "NORTRIPTILINA", "PROTRIPTILINA", "DOXEPINA",
