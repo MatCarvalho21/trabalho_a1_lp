@@ -12,6 +12,7 @@ com eles que será usada em outra função para montar um gif.
 
 class TestSeletorDeFrames(unittest.TestCase):
     """
+    a classe vai conter os diferentes testes feitos para a função
     """
 
     def test_pasta_sem_frames(self):
