@@ -36,14 +36,13 @@ def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
     """
 
     try:
-        dataframe_selecionado = pd.DataFrame(dataframe_selecionado)
-    except ValueError:
-        return "Não foi inserido um dataframe"
+        df_hemitartarato_de_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
+        df_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
+    except KeyError:
+        print("O dataframe não contém a coluna PRINCIPIO_ATIVO.")  
 
     # Gerando o dataframe que contém apenas o Zolpidem
-    
-    df_hemitartarato_de_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
-    df_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
+
     df = pd.concat([df_hemitartarato_de_zolpidem, df_zolpidem]).reset_index()
 
     # Contagem por ano
@@ -71,12 +70,8 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
 
     """
 
-    try:
-        df_venda_por_ano = dataframe_de_zolpidem(dataframe_de_vendas_anuais)
-    except ValueError:
-        return "Não foi fornecido um dataframe válido."    
+    df_venda_por_ano = dataframe_de_zolpidem(dataframe_de_vendas_anuais)  
     
-
     # Construção do gráfico
 
     plt.scatter(df_venda_por_ano["ANO_VENDA"], df_venda_por_ano["REMÉDIO_VENDIDO"], marker="*", c = "Black")
@@ -93,4 +88,4 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
     return "Visualização finalizada"
 
 if __name__ == "__main__":
-    doctest.testmod(verbose = True)
+    doctest.testmod(verbose = True)  
