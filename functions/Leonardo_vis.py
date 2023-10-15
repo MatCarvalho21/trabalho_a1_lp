@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 import utils 
 import doctest
 
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
+
+
 def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
     """
     A função recebe um dataframe que contém registros de venda do Hemitartarato de Zolpidem dentro de um intervalo
@@ -15,38 +20,52 @@ def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
 
     Returns
     ----------
-    df_venda_por_ano: pd.Dataframe
+    df_venda_por_ano: pd.DataFrame
         Dataframe das quantidades vendidas por ano. 
 
     Examples
     ----------
-    >>> dataframe_de_zolpidem(utils.concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"]))
+    # >>> dataframe_de_zolpidem(utils.concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"]))
 
+    Tests
+    ----------
     >>> dataframe_de_zolpidem(2023)
-    O dataframe é inválido. 
+    Parâmetro inválido.
 
-    >>> dataframe_de_zolpidem(pd.Dataframe())  
-    O dataframe está vazio. 
+    >>> dataframe_de_zolpidem(pd.DataFrame())  
+    O dataframe não contém a coluna PRINCIPIO_ATIVO.
 
     """
 
+    # Validação do dataframe
     try:
-        df_hemitartarato_de_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
-        df_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
-    except KeyError:
-        print("O dataframe não contém a coluna PRINCIPIO_ATIVO.")  
+        if type(dataframe_selecionado) != pd.DataFrame:
+            raise TypeError
+    except TypeError:
+        print("Parâmetro inválido.")     
 
-    # Gerando o dataframe que contém apenas o Zolpidem
+    else:
+        try:
+            df_hemitartarato_de_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "HEMITARTARATO DE ZOLPIDEM"]).reset_index(drop=True)
+            df_zolpidem = (dataframe_selecionado[dataframe_selecionado["PRINCIPIO_ATIVO"] == "ZOLPIDEM"]).reset_index(drop=True)
 
-    df = pd.concat([df_hemitartarato_de_zolpidem, df_zolpidem]).reset_index()
+        except KeyError:
+            print("O dataframe não contém a coluna PRINCIPIO_ATIVO.") 
+        except BaseException as err:
+             print("Outro erro encontrado!", err) 
 
-    # Contagem por ano
+        else:
+            # Gerando o dataframe que contém apenas o Zolpidem
 
-    df["REMÉDIO_VENDIDO"] = df["PRINCIPIO_ATIVO"].replace({"HEMITARTARATO DE ZOLPIDEM": 1, "ZOLPIDEM": 1})
+            df = pd.concat([df_hemitartarato_de_zolpidem, df_zolpidem]).reset_index()
 
-    df_venda_por_ano = df.groupby("ANO_VENDA")["REMÉDIO_VENDIDO"].sum().sort_values(ascending = False).reset_index()
+            # Contagem por ano
 
-    return df_venda_por_ano
+            df["REMÉDIO_VENDIDO"] = df["PRINCIPIO_ATIVO"].replace({"HEMITARTARATO DE ZOLPIDEM": 1, "ZOLPIDEM": 1})
+
+            df_venda_por_ano = df.groupby("ANO_VENDA")["REMÉDIO_VENDIDO"].sum().sort_values(ascending = False).reset_index()
+
+            return df_venda_por_ano
 
 def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFrame:
     """
@@ -83,4 +102,4 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
     return "Visualização finalizada"
 
 if __name__ == "__main__":
-    doctest.testmod(verbose = True)  
+    doctest.testmod(verbose = True) 
