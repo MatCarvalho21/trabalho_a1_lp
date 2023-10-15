@@ -54,6 +54,13 @@ def cria_datetime(dataframe: pd.DataFrame) -> pd.Series:
         Tipo: pandas.Series
         Descrição: série do Pandas com as datas em formato datetime.
     
+    Exemplo:
+    ---------
+    >>> cria_datetime(pd.DataFrame({"ANO_VENDA": [2020, 2020, 2021], "MES_VENDA": [3, 3, 12]}))
+    0   2020-03-01
+    1   2020-03-01
+    2   2021-12-01
+    dtype: datetime64[ns]
     '''
     datetimes = {"Year": dataframe["ANO_VENDA"],
                 "Month": dataframe["MES_VENDA"],
@@ -159,6 +166,14 @@ def grafico_linhas(datas: Iterable[datetime64], valores: tuple[Iterable] | Itera
         Descrição:
             Transparências das linhas a serem geradas. 
             Se há mais de uma linha, esse parâmetro deve receber uma tupla.
+    
+    Exemplo:
+    ---------
+    >>> datas = cria_datetime(pd.DataFrame({"ANO_VENDA": [2020, 2020, 2021], "MES_VENDA": [3, 3, 12]}))
+    >>> grafico_linhas(datas, ([1, 3, 4], [2, 3, 1]), ("Primeira linha"))
+    Traceback (most recent call last):
+    ...
+    ValueError: As quantidades de valores e labels são diferentes.
     """
 
     if type(valores) != tuple:
