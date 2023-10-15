@@ -80,7 +80,7 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
 
     return lista_de_frames
 
-def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:str) -> None:
+def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:str, fps:int) -> None:
     """
     A função tem como objetivo criar vários frames, separados por ano e por mês, 
     para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
@@ -109,11 +109,16 @@ def gerador_de_gif(lista_de_frames:list, path_folder_for_save:str, output_name:s
     """
 
     try: 
-        imageio.mimsave(f"{path_folder_for_save}\{output_name}.gif", lista_de_frames, fps=4)
+        imageio.mimsave(f"{path_folder_for_save}\{output_name}.gif", lista_de_frames, fps=fps)
 
     except PermissionError:
         print("O caminho fornecido é inválido. Tente novamente.")
+        return None
     except ValueError:
         print("A lista fornecida deveria conter várias imagens para formar o gif. Verifique o parâmetro fornecido.")
+        return None
     except:
         print("Algo deu errado. Verifique a documentação da função e tente novamente.")
+        return None
+    
+    return "Deu tudo certo!"
