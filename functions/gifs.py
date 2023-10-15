@@ -2,13 +2,13 @@
 para a criação da visualização de alguns membros q utilizam de gifs animados.
 """
 
-import pandas as pd
-import imageio
-import doctest
-
 import sys, os
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(esse_caminho)
+
+import pandas as pd
+import imageio
+import doctest
 
 
 def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) -> list:
