@@ -4,7 +4,7 @@ from utils import set_anabolizantes
 
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'set_anabolizantes', que pertence 
-ao módulo 'dados_anabolizantes.py'. Para resumir, a função em questão recebe um dataframe bruto, concatenado 
+ao módulo 'utils.py'. Para resumir, a função em questão recebe um dataframe bruto, concatenado 
 ou não, desde que seja um dataframe da base de dados dos medicamentos manipulados que foi analizada ao 
 longo do trabalho. Ela vai retornar um dataframe filtrado com apenas os dados referentes aos hormônios 
 esteroides e anabolizantes.
