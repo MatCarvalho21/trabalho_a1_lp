@@ -1,10 +1,10 @@
 import unittest
 import pandas as pd  
-from utils import seletor_de_frames
+from gifs import seletor_de_frames
 
 """
 Esse módulo tem como objetivo verificar o funcionamento da função 'seletor_de_frames', que pertence 
-ao módulo 'utils.py'. Para resumir, a função recebe um ano inicial, um ano final e um path para a pasta 
+ao módulo 'gifs.py'. Para resumir, a função recebe um ano inicial, um ano final e um path para a pasta 
 em questão. Essa pasta deve conter várias imagens, com nomes pré-definidos no seguinte formato: 
 'frame_{ano}_{mês}.png'. Ele vai selecionar todos os frames nessa range de datas e retornar uma lista
 com eles que será usada em outra função para montar um gif.
