@@ -57,7 +57,7 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
     Parameters
     ----------
     dataframe_de_vendas_anuais: pd.DataFrame
-        Dataframe que contém o total de vendas anuais do remédio Hemitartarato de Zolpidem
+        Dataframe que contém o total de vendas anuais do remédio Hemitartarato de Zolpidem.
 
     Returns
     -------
