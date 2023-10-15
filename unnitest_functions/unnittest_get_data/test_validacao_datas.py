@@ -1,8 +1,9 @@
 """
-Esse módulo tem como objetivo verificar o funcionamento da função 'gerador_de_gif', que pertence 
-ao módulo 'gifs.py'. Para resumir, a função recebe uma lista de frames (imagens), uma pasta onde o gif 
-deverá ser salvo, o nome do arquivo e o fps do gif. Caso tudo corra bem, a função vai salvar um gif
-seguindo os parâmetros fornecidos.
+Esse módulo tem como objetivo verificar o funcionamento da função 'validacao_datas', que pertence 
+ao módulo 'get_data.py'. A função recebe duas datas da forma "AAAAmm" com os 4 primeiros dígitos
+sendo o ano e os últimos 2 o mês, e deve validar como verdadeiro caso
+as datas estejam entre Janeiro de 2014 e Novembro de 2021, e a segunda data
+ser posterior a primeira.
 """
 
 import sys, os

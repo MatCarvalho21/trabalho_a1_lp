@@ -1,8 +1,9 @@
 """
-Esse módulo tem como objetivo verificar o funcionamento da função 'gerador_de_gif', que pertence 
-ao módulo 'gifs.py'. Para resumir, a função recebe uma lista de frames (imagens), uma pasta onde o gif 
-deverá ser salvo, o nome do arquivo e o fps do gif. Caso tudo corra bem, a função vai salvar um gif
-seguindo os parâmetros fornecidos.
+Esse módulo tem como objetivo verificar o funcionamento da função 'get_dates_between_dates', que pertence 
+ao módulo 'get_data.py'. A função recebe duas datas da forma "AAAAmm" com os 4 primeiros dígitos
+sendo o ano e os últimos 2 o mês, e deve retornar uma lista com todas as datas
+separadas por meses entre a primeira data e a segunda, no formato de
+string "AAAAmm".
 """
 
 import sys, os
