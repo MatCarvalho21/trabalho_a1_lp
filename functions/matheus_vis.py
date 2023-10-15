@@ -182,7 +182,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     plt.suptitle(f"Venda de Anabolizantes Por Ano ({ano_analizado})", fontsize=18)
     plt.xlim(0, 13)
 
-    return None, figure
+    return figure, None
 
 def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_para_salvar:str) -> str:
     """
