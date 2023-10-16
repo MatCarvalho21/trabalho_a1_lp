@@ -9,7 +9,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.join(os.path.abspath("..")))
 
 project = 'Visualizações de Medicamentos Manipulados'
 copyright = '2023, Leonardo Alexandre, Luciano Sampaio, Matheus Carvalho, Sillas Rocha'
@@ -28,5 +28,5 @@ language = 'pt_BR'
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'classic'
-html_static_path = ['_static']
+html_theme = 'sphinx_rtd_theme'
+html_static_path = []
