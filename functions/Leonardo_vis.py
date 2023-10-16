@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import utils 
 import doctest
 
-
 def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
     """
     A função recebe um dataframe que contém registros de venda do Hemitartarato de Zolpidem dentro de um intervalo
@@ -99,7 +98,7 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
 
     plt.show()
 
-    return "Visualização finalizada"
+    return "Visualização finalizada!"
 
 if __name__ == "__main__":
-    doctest.testmod(verbose = True) 
+    doctest.testmod(verbose = True)    
