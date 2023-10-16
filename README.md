@@ -25,8 +25,25 @@ Ela é dividida por meses e anos, e contém observações desde Janeiro de 2014 
 
 ## Visualizações
 
-Os integrantes, em geral, exploraram a quantidade de vendas de remédios com diferentes propósitos, em diferentes contextos, afim de compreender o público de produtos fármacos no Brasil. O resultado final pode ser observado em [Visualizações de Medicamentos Manipulados - Trabalho de LP](https://matcarvalho21.github.io/trabalho_a1_lp/).
+Os integrantes, em geral, exploraram a quantidade de vendas de remédios com diferentes propósitos, em diferentes contextos, afim de compreender o público de produtos fármacos no Brasil. O resultado final, junto com as análises, pode ser observado em [Visualizações de Medicamentos Manipulados - Trabalho de LP](https://matcarvalho21.github.io/trabalho_a1_lp/).
 
 ### Documentação
 
 A documentação do trabalho pode ser encontrada em [Documentação de Visualizações de Medicamentos Manipulados](https://visualizacoes-de-medicamentos-manipulados.readthedocs.io/pt_BR/latest/).
+
+## Visualização Matheus
+
+![til](/assets/visualizacoes_finais/vis_final_matheus.gif)
+
+## Visualização Sillas
+
+![till](/assets/visualizacoes_finais/vis_final_sillas.gif)
+
+## Visualização Luciano
+
+![img](/assets/visualizacoes_finais/vis_luciano.png)
+
+## Visualização Leonardo
+
+![img](/assets/visualizacoes_finais/zolpidem.png)
+
