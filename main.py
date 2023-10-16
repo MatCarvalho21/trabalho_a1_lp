@@ -10,6 +10,7 @@ from utils import concat_data_by_dates, filtra_dados_por_valores_procurados, set
 from matheus_vis import gerador_de_frames, save_frames
 from sillas_vis import visualizacao_sillas
 from gifs import seletor_de_frames, gerador_de_gif
+from Leonardo_vis import visualizacao_leonardo, dataframe_de_zolpidem
 
 visualizacao_sillas("2020/01", "2021/11", "functions\\sillas_imagens")
 lista_de_frames_sillas = seletor_de_frames(2020, 2021, "functions\sillas_imagens")
@@ -23,3 +24,8 @@ for cada_ano in range(2014, 2021):
         save_frames(figure, cada_ano, cada_mes, "functions\\matheus_imagens")
 lista_de_frames_sillas = seletor_de_frames(2014, 2020, "functions\matheus_imagens")
 gerador_de_gif(lista_de_frames_sillas, "assets\\visualizacoes_finais", "vis_final_matheus", 3)
+
+
+dados_leo = dataframe_de_zolpidem(concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"]))
+visualizacao_leonardo(dados_leo, "assets\\visualizacoes_finais")
+
