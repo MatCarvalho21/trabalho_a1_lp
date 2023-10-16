@@ -11,4 +11,3 @@ trabalho_a1_lp
    functions.luciano_vis
    functions.matheus_vis
    functions.sillas_vis
-   main
