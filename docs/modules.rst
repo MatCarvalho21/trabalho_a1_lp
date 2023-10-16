@@ -4,7 +4,6 @@ trabalho_a1_lp
 .. toctree::
    :maxdepth: 4
 
-   functions
    functions.utils
    functions.get_data
    functions.gifs

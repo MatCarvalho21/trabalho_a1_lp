@@ -1,3 +1,8 @@
+"""
+Módulo para a criação da visualização do integrante Luciano Sampaio. 
+Contém 6 funções incluindo aquela que gera e salva o gráfico.
+"""
+
 import sys, os
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(esse_caminho)
@@ -11,17 +16,20 @@ from numpy import datetime64
 
 
 def filtra_e_contatena(coluna_do_valor: str, valores_procurados: list | str) -> pd.DataFrame:
-    '''Usa as funções do módulo utils para concatenar todas as datas disponíveis e pegar apenas as linhas com os valores procurados
+    '''
+    Usa as funções do módulo utils para concatenar todas as datas disponíveis e pegar apenas as linhas com os valores procurados
 
     Parâmetros:
     ------------
     coluna_do_valor:
         Tipo: str 
+
         Descrição: 
             nome da coluna em que o valor procurado deve estar
 
     valores_procurados: 
         Tipo: list | str
+
         Descrição: 
             valor, caso string, ou valores, caso lista, que serão procurados na coluna
     
@@ -29,9 +37,11 @@ def filtra_e_contatena(coluna_do_valor: str, valores_procurados: list | str) -> 
     ---------
     dataframe:
         Tipo: pandas.DataFrame
-        Descrição: dataframe pandas com os dados filtrados
-    
+
+        Descrição: 
+            dataframe pandas com os dados filtrados
     '''
+
     dataframe = utils.concat_data_by_dates(f"2014/01", f"2014/12")
     dataframe = utils.filtra_dados_por_valores_procurados(dataframe, coluna_do_valor, valores_procurados)
     for year in range(2014, 2021+1):
@@ -50,6 +60,7 @@ def cria_datetime(dataframe: pd.DataFrame) -> pd.Series:
     -------------
     dataframe: 
         Tipo: pandas.DataFrame
+
         Descrição:
             o dataframe do Pandas com as colunas "ANO_VENDA" e "MES_VENDA".
 
@@ -57,7 +68,9 @@ def cria_datetime(dataframe: pd.DataFrame) -> pd.Series:
     ---------
     datetimes: 
         Tipo: pandas.Series
-        Descrição: série do Pandas com as datas em formato datetime.
+
+        Descrição: 
+            série do Pandas com as datas em formato datetime.
     
     Exemplo:
     ---------
@@ -81,17 +94,21 @@ def regiao_estado(sigla_estado: str) -> str:
     -------------
     sigla_estado:
         Tipo: str
+
         Descrição: 
             Sigla do estado brasileiro
+
         Exemplo: "MG"
     
     Retorna:
     --------
     regiao:
         Tipo: str | None
+
         Descrição: 
             Região em que o estado brasileiro está. 
             Se a sigla inserida for inexistente, retorna None.
+
         Exemplo: Sudeste
     
     Exemplos
@@ -140,34 +157,40 @@ def regiao_estado(sigla_estado: str) -> str:
     return regiao
 
 def grafico_linhas(datas: Iterable[datetime64], valores: tuple[Iterable] | Iterable, labels: tuple[str] | str, titulo: str | None = None, transparencias: tuple[float] | float = 1.0):
-    """Prepara um gráfico de linhas com os dados fornecidos usando o matplotlib.pyplot
+    """
+    Prepara um gráfico de linhas com os dados fornecidos usando o matplotlib.pyplot
     
     Parâmetros
     -------------
     datas:
         Tipo: Iterable[datetime]
+
         Descrição: 
             Datas que serão usadas no eixo X.
     
     valores:
         Tipo: tuple[Iterable] | Iterable
+
         Descrição: 
             Valores que serão plotados em relação ao eixo Y. 
             Se há mais de uma linha, o parâmetro deve receber uma tupla com os dados de cada linha.
     
     labels:
         Tipo: tuple[str] | str
+
         Descrição:
             Legendas das linhas a serem plotadas. 
             Se há mais de uma linha, esse parâmetro deve receber uma tupla.
     
     titulo:
         Tipo: str | None
+
         Descrição:
             Título do gráfico.
     
     transparencias:
         Tipo: tuple[float] | float
+
         Descrição:
             Transparências das linhas a serem geradas. 
             Se há mais de uma linha, esse parâmetro deve receber uma tupla.
@@ -209,16 +232,19 @@ def contagem_elementos(dataframe: pd.DataFrame, elemento_contado: str, nome_da_s
     -------------
     dataframe:
         Tipo: pandas.DataFrame
+
         Descrição: 
             DataFrame a ser modificado
 
     elemento_contado:
         Tipo: str
+
         Descrição: 
             Nome da coluna em que o value_counts vai ser feito
     
     nome_da_serie:
         Tipo: str
+
         Descrição: 
             nome da série a ser retornada
     
@@ -226,6 +252,7 @@ def contagem_elementos(dataframe: pd.DataFrame, elemento_contado: str, nome_da_s
     --------
     contagem:
         Tipo: pandas.Series
+
         Descrição: 
             série do pandas com as informações feitas
     
@@ -254,6 +281,7 @@ def luciano_vis(acao: Literal["show", "save", None], path: str|None = None):
     ------------
     acao:
         Tipo: str | None
+
         Descrição: 
             Ação a ser executada depois de formar o gráfico. Pode ser:
             "show": irá mostrar o gráfico e fechar a figura.
@@ -262,6 +290,7 @@ def luciano_vis(acao: Literal["show", "save", None], path: str|None = None):
     
     path:
         Tipo: str | None
+        
         Descrição: 
             path em que a figura será salva. É necessário caso o parâmetro acao seja "save".
     
