@@ -25,7 +25,6 @@ for cada_ano in range(2014, 2021):
 lista_de_frames_sillas = seletor_de_frames(2014, 2020, "functions\matheus_imagens")
 gerador_de_gif(lista_de_frames_sillas, "assets\\visualizacoes_finais", "vis_final_matheus", 3)
 
-
 dados_leo = dataframe_de_zolpidem(concat_data_by_dates("2014/01", "2020/12", filtered_columns = ["ANO_VENDA", "PRINCIPIO_ATIVO"]))
 visualizacao_leonardo(dados_leo, "assets\\visualizacoes_finais")
 
