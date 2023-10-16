@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2C3E50;
+    padding-bottom: 2.5%;
+}
+
+#bloco_central{
+    width: 84vw;
+    height: auto; /* QUANDO ACABAR DE CONSTRUIR, VIR AQUI E COLOCAR AUTO */
+    margin-top: 5vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    background-color: #ECF0F1;
+    border-radius: 10px;
+    padding-bottom: 2%;
+}
+
+#navegacao{
+    width: 100%;
+    height: 9vh;
+    display: flex;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background-color: rgb(105, 105, 108);
+}
+
+a{
+    text-decoration: none;
+    color: #ffffff;
+    font-family: sans-serif;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+#home{
+    width: 12vw;
+    height: 100%;
+    border-top-left-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#home:hover{
+    background-color: #246a99;
+}
+
+#leonardo{
+    width: 12vw;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#leonardo:hover{
+    background-color: #246a99;
+}
+
+#luciano{
+    width: 12vw;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#luciano:hover{
+    background-color: #246a99;
+}
+
+#matheus{
+    width: 12vw;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#matheus:hover{
+    background-color: #246a99;
+}
+
+
+#sillas{
+    width: 12vw;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#sillas:hover{
+    background-color: #246a99;
+}
+
+#repositorio{
+    width: 12vw;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#repositorio:hover{
+    background-color: #246a99;
+}
+
+#sphinx{
+    width: 12vw;
+    height: 100%;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background-color: #2980B9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+
+#sphinx:hover{
+    background-color: #246a99;
+}
+
+#titulo{
+    width: 100%;
+    height: 13vh;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    background-color: #ECF0F1;
+    font-size: 8vh;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2%;
+}
+
+#descricao{
+    width: 75%;
+    height: auto;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    background-color: rgb(222, 222, 222);
+    margin-top: 2.5%;
+    font-size: 3vh;
+    color: #000000;
+    justify-content:left;
+    align-items: center;
+    font-weight: 400;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+
+#visualizacao{
+    width: 60%;
+    height:auto;
+    border-radius: 10px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    background-color: rgb(15, 0, 83);
+    margin-top: 2.5%;
+}
+
+#visualizacao img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

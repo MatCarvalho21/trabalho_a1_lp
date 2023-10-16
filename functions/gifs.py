@@ -43,7 +43,7 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
     Test
     ----------
     >>> seletor_de_frames("2014", "2016", "pasta_inexistente")
-    Não foi possível encontrar nenhum frame. Certifique de que o caminho fornecido está correto.
+    []
     """
 
     lista_de_frames = list()
@@ -56,9 +56,7 @@ def seletor_de_frames(data_inicial:str, data_final:str, path_pasta_imagens:str) 
                 lista_de_frames.append(frame)
 
     except FileNotFoundError:
-        print("Não foi possível encontrar nenhum frame. Certifique de que o caminho fornecido está correto.")
-        lista_de_frames = None
-        
+        pass
     except:
         print("Algo deu errado. Verifique a documentação da função e tente novamente.")
         lista_de_frames = None
