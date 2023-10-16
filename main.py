@@ -12,10 +12,13 @@ from sillas_vis import visualizacao_sillas
 
 # visualizacao_sillas("2020/01", "2021/11", "functions\\sillas_imagens")
 
-dados_brutos = concat_data_by_dates("2020/01", "2020/12")
+dados_brutos = concat_data_by_dates("2014/01", "2020/12")
+print("base de dados pronta")
 dados_filtrados = set_anabolizantes(dados_brutos)
-
+print("base de dados pronta")
+"""
 for cada_ano in range(2014, 2021):
     for cada_mes in range(1, 13):
         figure, valor_nulo = gerador_de_frames(dados_filtrados, str(cada_ano), str(cada_mes))
-        save_frames = (figure, cada_ano, cada_mes, "functions\\matheus_imagens")
+        save_frames(figure, cada_ano, cada_mes, "functions\\matheus_imagens")
+"""

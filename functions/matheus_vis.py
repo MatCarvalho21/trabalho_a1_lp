@@ -138,8 +138,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     df_testosterona = df_testosterona[["MES_VENDA", "NUMERO_DE_VENDAS"]]
     df_testosterona = df_testosterona.groupby("MES_VENDA").sum().reset_index(drop=True)
     numero_vendas_testosterona = list(df_testosterona["NUMERO_DE_VENDAS"]) 
-    print(numero_vendas_testosterona)
-    """
+
     grafico1.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
     grafico1.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
     grafico1.set_ylim(bottom=0, top=30000)
@@ -184,9 +183,10 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     plt.suptitle(f"Venda de Anabolizantes Por Ano ({ano_analizado})", fontsize=18)
     plt.xlim(0, 13)
 
-    return figure, None
-    """
+    print("ano_analizado - mes_analizado pronto")
 
+    return figure, None
+    
 def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_para_salvar:str) -> str:
     """
     Essa função recebe uma visualização, o ano que ela representa, o mês que ela representa e um path 
@@ -257,11 +257,6 @@ def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_pa
 
     return "Deu tudo certo!"
 
-dados = concat_data_by_dates("2014/01", "2015/01")
-dados_filtrados = set_anabolizantes(dados)
-gerador_de_frames(dados_filtrados, "2014", "05")
-
-"""
 if __name__ == "__main__":
 
     # dataframes para teste
@@ -283,4 +278,3 @@ if __name__ == "__main__":
                                     figsize=(20, 5))
 
     doctest.testmod(verbose=True)
-"""
