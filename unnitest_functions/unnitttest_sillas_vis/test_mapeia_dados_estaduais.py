@@ -18,7 +18,7 @@ import geopandas
 from sillas_vis import mapeia_dados_estaduais
 
 
-class Test_Download_Csv_By_Dates(unittest.TestCase):
+class Test_Mapeia_Dados_Estaduais(unittest.TestCase):
     """
     a classe vai conter os diferentes testes feitos para a função
     """

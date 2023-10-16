@@ -17,7 +17,7 @@ import pandas as pd
 from sillas_vis import soma_vendas_por_atributo
 
 
-class Test_Download_Csv_By_Dates(unittest.TestCase):
+class Test_Soma_Vendas_Por_Atributo(unittest.TestCase):
     """
     a classe vai conter os diferentes testes feitos para a função
     """

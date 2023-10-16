@@ -17,7 +17,7 @@ import pandas as pd
 from utils import concat_data_by_dates
 
 
-class Test_Download_Csv_By_Dates(unittest.TestCase):
+class Test_Concat_Data_By_Dates(unittest.TestCase):
     """
     a classe vai conter os diferentes testes feitos para a função
     """
@@ -26,6 +26,14 @@ class Test_Download_Csv_By_Dates(unittest.TestCase):
         verifica se a função retorna um DataFrame no caso báscio.
         """
         self.assertEqual(type(concat_data_by_dates("2014/01", "2014/01")), pd.DataFrame)
+
+    def test_mais_de_dois_anos_concatenados(self):
+        """
+        verifica se a função retorna mais do que a primeira e a última data concatenadas.
+        """
+        datas = concat_data_by_dates("2014/01", "2014/03", filtered_columns=["MES_VENDA"])
+        lista_meses_concat = list(datas["MES_VENDA"].unique())
+        self.assertEqual(lista_meses_concat, [1, 2, 3])
 
     def test_filtrar_colunas(self):
         """

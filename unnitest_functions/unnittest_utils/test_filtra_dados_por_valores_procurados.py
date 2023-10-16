@@ -16,7 +16,7 @@ import pandas as pd
 from utils import filtra_dados_por_valores_procurados
 
 
-class Test_Download_Csv_By_Dates(unittest.TestCase):
+class Test_Filtra_Dados_Por_Valores_Procurados(unittest.TestCase):
     """
     a classe vai conter os diferentes testes feitos para a função
     """
