@@ -10,7 +10,8 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import numpy as np 
 import doctest
-from utils import set_anabolizantes
+from utils import set_anabolizantes, concat_data_by_dates
+
 
 import sys, os
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
@@ -123,7 +124,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     dataframe_filtrado["NUMERO_DE_VENDAS"] = 1
     dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["ANO_VENDA"] == ano_analizado]
     dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["MES_VENDA"] <= mes_analizado]
-
+    
     # criação dos objetos de plotagem
     figure, (grafico1, grafico2, grafico3) = plt.subplots(nrows=1, 
                                     ncols=3, 
@@ -137,7 +138,8 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     df_testosterona = df_testosterona[["MES_VENDA", "NUMERO_DE_VENDAS"]]
     df_testosterona = df_testosterona.groupby("MES_VENDA").sum().reset_index(drop=True)
     numero_vendas_testosterona = list(df_testosterona["NUMERO_DE_VENDAS"]) 
-
+    print(numero_vendas_testosterona)
+    """
     grafico1.plot(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
     grafico1.scatter(list(x_meses.values())[0:mes_analizado], numero_vendas_testosterona, color="midnightblue")
     grafico1.set_ylim(bottom=0, top=30000)
@@ -183,6 +185,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     plt.xlim(0, 13)
 
     return figure, None
+    """
 
 def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_para_salvar:str) -> str:
     """
@@ -254,7 +257,11 @@ def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_pa
 
     return "Deu tudo certo!"
 
+dados = concat_data_by_dates("2014/01", "2015/01")
+dados_filtrados = set_anabolizantes(dados)
+gerador_de_frames(dados_filtrados, "2014", "05")
 
+"""
 if __name__ == "__main__":
 
     # dataframes para teste
@@ -276,3 +283,4 @@ if __name__ == "__main__":
                                     figsize=(20, 5))
 
     doctest.testmod(verbose=True)
+"""
