@@ -10,7 +10,8 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import numpy as np 
 import doctest
-from utils import set_anabolizantes
+from utils import set_anabolizantes, concat_data_by_dates
+
 
 import sys, os
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
@@ -123,7 +124,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     dataframe_filtrado["NUMERO_DE_VENDAS"] = 1
     dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["ANO_VENDA"] == ano_analizado]
     dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["MES_VENDA"] <= mes_analizado]
-
+    
     # criação dos objetos de plotagem
     figure, (grafico1, grafico2, grafico3) = plt.subplots(nrows=1, 
                                     ncols=3, 
@@ -183,7 +184,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_an
     plt.xlim(0, 13)
 
     return figure, None
-
+    
 def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_para_salvar:str) -> str:
     """
     Essa função recebe uma visualização, o ano que ela representa, o mês que ela representa e um path 
@@ -253,7 +254,6 @@ def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_pa
     plt.close()
 
     return "Deu tudo certo!"
-
 
 if __name__ == "__main__":
 

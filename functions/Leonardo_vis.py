@@ -1,3 +1,7 @@
+"""
+Módulo para a criação da visualização do integrante Leonardo. 
+"""
+
 import sys, os
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(esse_caminho)
@@ -66,7 +70,7 @@ def dataframe_de_zolpidem(dataframe_selecionado: pd.DataFrame) -> pd.DataFrame:
 
             return df_venda_por_ano
 
-def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFrame:
+def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame, caminho_pasta: str) -> pd.DataFrame:
     """
     A função recebe um dataframe que possui a quantidade de vendas do remédio Zolpidem por ano e retorna
     um gráfico de linhas baseado no dataframe.
@@ -75,6 +79,9 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
     ----------
     dataframe_de_vendas_anuais: pd.DataFrame
         Dataframe que contém o total de vendas anuais do remédio Hemitartarato de Zolpidem.
+    
+    caminho_pasta: str
+        Caminho da pasta onde o arquivo de imagem da visualização será salvo.
 
     Returns
     -------
@@ -94,7 +101,7 @@ def visualizacao_leonardo(dataframe_de_vendas_anuais: pd.DataFrame) -> pd.DataFr
     plt.ylabel("Vendas", fontweight = "bold")
     plt.gca().set_facecolor("Beige")
 
-    plt.savefig("functions\Leonardo_imagem\\zolpidem.png")
+    plt.savefig(f"{caminho_pasta}\zolpidem.png")
 
     plt.show()
 

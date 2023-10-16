@@ -15,6 +15,7 @@ import doctest
 import utils
 from get_data import get_dates_between_dates
 
+
 def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
     """Função que soma algum atributo de um dataframe.
 
@@ -313,8 +314,7 @@ def visualizacao_sillas(data_inicial:str, data_final:str, pasta_imagens:str, sav
 
 
 if __name__ == "__main__":
-    # dados = utils.concat_data_by_dates("2021/01", "2021/01")
 
-    # print(visualizacao_sillas("2020/01", "2021/11", ".."))
-    # print(data["UF_VENDA"].value_counts())
+    # print(visualizacao_sillas("2020/01", "2021/03", ".."))
+
     doctest.testmod(verbose=True)

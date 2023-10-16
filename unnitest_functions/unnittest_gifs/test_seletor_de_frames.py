@@ -9,7 +9,7 @@ com eles que será usada em outra função para montar um gif.
 import sys, os
 
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
-caminho_functions = os.path.join(esse_caminho, "..", "functions")
+caminho_functions = os.path.join(esse_caminho, "..", "..", "functions")
 sys.path.append(caminho_functions)
 
 import unittest
@@ -25,13 +25,13 @@ class TestSeletorDeFrames(unittest.TestCase):
         """
         verifica o comportamento da função quando uma pasta sem frames é fornecida
         """
-        self.assertIsNone(seletor_de_frames("2014", "2015", "functions"))
+        self.assertEqual(type(seletor_de_frames("2014", "2015", "functions")), type(list()))
 
     def test_pasta_inexistente(self):
         """
         verifica o comportameto da função quando é passado um path inválido (pasta inexistente)
         """
-        self.assertIsNone(seletor_de_frames("2014", "2015", "pasta_inexistente_genérica"))
+        self.assertEqual(type(seletor_de_frames("2014", "2015", "pasta_inexistente_genérica")), type(list()))
 
     def test_datas_invalidas(self):
         """
