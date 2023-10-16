@@ -9,7 +9,7 @@ esteroides e anabolizantes.
 import sys, os
 
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
-caminho_functions = os.path.join(esse_caminho, "..", "functions")
+caminho_functions = os.path.join(esse_caminho, "..", "..", "functions")
 sys.path.append(caminho_functions)
 
 import unittest
