@@ -26,3 +26,8 @@ Ela é dividida por meses e anos, e contém observações desde Janeiro de 2014 
 ### Visualizações
 
 Os integrantes, em geral, exploraram a quantidade de vendas de remédios com diferentes propósitos, em diferentes contextos, afim de compreender o público de produtos fármacos no Brasil.
+
+
+### Documentação
+
+A documentação do trabalho pode ser encontrada em [Documentação de Visualizações de Medicamentos Manipulados](https://visualizacoes-de-medicamentos-manipulados.readthedocs.io/pt_BR/latest/)
