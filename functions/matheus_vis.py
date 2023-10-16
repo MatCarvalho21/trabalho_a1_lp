@@ -10,19 +10,12 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import numpy as np 
 import doctest
-from utils import set_anabolizantes
+from utils import set_anabolizantes, concat_data_by_dates
 
-# dataframes para teste
-df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
-dataframe_geral = pd.concat((df_01, df_02, df_03))
-dataframe_teste = set_anabolizantes(dataframe_geral)
 
-dados = {'Nome': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
-        'Idade': [25, 30, 22, 35, 28],
-        'Cidade': ['Nova York', 'Los Angeles', 'Chicago', 'Houston', 'Miami']}
-dataframe_invalido = pd.DataFrame(dados)
+import sys, os
+esse_caminho = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(esse_caminho)
 
 lista_de_colunas = ['ANO_VENDA',
                     'MES_VENDA', 
@@ -59,11 +52,10 @@ x_meses = {"Janeiro": 1,
             "Novembro": 11,
             "Dezembro": 12}
 
-def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_analizado:int) -> str:
+def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:str, mes_analizado:str) -> str:
     """
-    A função tem como objetivo criar vários frames, separados por ano e por mês, 
-    para que eles sejam usados em um gráfico animado. Ela vai gerar várias imagens
-    que serão utilizadas para montar a visualização animada.
+    Essa função recebe um dataframe filtrado pela função set_anabolizates, um ano e um mês para fazer a análise.
+    Ela gera uma visualização composta por três plots e retorna a visualização para que ela possa ser salva ou exibida. 
 
     Parameters
     ----------
@@ -72,14 +64,14 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
         description: o dataframe filtrado e concatenado que vai ser base da análise
     
     ano_analizado
-        type: int
+        type: str
         description: o número do mês que vamos plotar 
-        example: 2015
+        example: "2015"
 
     mes_analizado
-        type: int
+        type: str
         description: o número do ano que vamos plotar
-        example: 5
+        example: "10"
 
     Test
     ----------
@@ -99,6 +91,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
     'O mês fornecido deve ser um inteiro'
     """
 
+    # bloco de testes
     try:
         dataframe_filtrado = pd.DataFrame(dataframe_filtrado)
     except ValueError:
@@ -131,7 +124,7 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
     dataframe_filtrado["NUMERO_DE_VENDAS"] = 1
     dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["ANO_VENDA"] == ano_analizado]
     dataframe_filtrado = dataframe_filtrado[dataframe_filtrado["MES_VENDA"] <= mes_analizado]
-
+    
     # criação dos objetos de plotagem
     figure, (grafico1, grafico2, grafico3) = plt.subplots(nrows=1, 
                                     ncols=3, 
@@ -190,15 +183,98 @@ def gerador_de_frames(dataframe_filtrado:pd.DataFrame, ano_analizado:int, mes_an
     plt.suptitle(f"Venda de Anabolizantes Por Ano ({ano_analizado})", fontsize=18)
     plt.xlim(0, 13)
 
-    # salvando as imagens
-    plt.savefig(f'functions\matheus_imagens\\frame_{ano_analizado}_{mes_analizado}.png', 
-                transparent = False,  
-                facecolor = 'white'
-               )
+    print("ano_analizado - mes_analizado pronto")
+
+    return figure, None
+    
+def save_frames(figure:plt.figure, ano_analizado:str, mes_analizado:str, path_para_salvar:str) -> str:
+    """
+    Essa função recebe uma visualização, o ano que ela representa, o mês que ela representa e um path 
+    de uma pasta. O objetivo dela é salvar essa visualização como uma imagem dentro dessa pasta. 
+    O ano e o mês vão compor o nome da visualização que vai estar no formato: frame_{ano}_{mes}.png.
+
+    Parameters
+    ----------
+    figure
+        type: plt.figure
+        description: a visualização que deve ser salva
+    
+    ano_analizado
+        type: str
+        description: o ano da visualização fornecida 
+        example: "2015"
+
+    mes_analizado
+        type: str
+        description: o mês da visualização fornecida
+        example: "10"
+
+    path_para_salvar
+        type: str
+        description: o caminho da pasta onde a visualização deverá ser salva
+        example: "root/folder_01/final_folder"
+
+    Return
+    ----------
+    "Deu tudo certo"
+        type: str
+        description: apenas uma mensagem de confirmação
+
+    Test
+    ----------
+    >>> save_frames(figure,"2015", "4", "functions\matheus_imagens")
+    'Deu tudo certo!'
+
+    >>> save_frames(True,"2015", "4", "functions\matheus_imagens")
+    'Não foi passado um objeto do tipo plt.figure. Verifique os parâmetros.'
+
+    >>> save_frames(figure,"matheus", "4", "functions\matheus_imagens")
+    'As datas fornecidas não estão no formato esperado. Verifique a documentação.'
+
+    >>> save_frames(figure,"2015", "matheus", "functions\matheus_imagens")
+    'As datas fornecidas não estão no formato esperado. Verifique a documentação.'
+
+    >>> save_frames(figure,"2015", "4", "pasta_inexistente")
+    'O path passado não corresponde à nenhuma pasta. Verifique os parâmetros.'
+    """
+    try:
+        ano_analizado = int(ano_analizado)
+        mes_analizado = int(mes_analizado)
+
+        # salvando as imagens
+        figure.savefig(f'{path_para_salvar}\\frame_{ano_analizado}_{mes_analizado}.png', transparent = False,  facecolor = 'white')
+
+    except AttributeError:
+        return "Não foi passado um objeto do tipo plt.figure. Verifique os parâmetros."
+    except ValueError:
+        return "As datas fornecidas não estão no formato esperado. Verifique a documentação."
+    except FileNotFoundError:
+        return "O path passado não corresponde à nenhuma pasta. Verifique os parâmetros."
+    except:
+        return "Algo deu errado no processo. Verifique a documentação e tente novamente."
     
     plt.close()
 
     return "Deu tudo certo!"
 
 if __name__ == "__main__":
-    doctest.testmod()
+
+    # dataframes para teste
+    df_01 = pd.read_csv("dados\Manipulados_2014_01.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    df_02 = pd.read_csv("dados\Manipulados_2014_02.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    df_03 = pd.read_csv("dados\Manipulados_2014_03.csv", delimiter=";", encoding="unicode_escape", low_memory=False)
+    dataframe_geral = pd.concat((df_01, df_02, df_03))
+    dataframe_teste = set_anabolizantes(dataframe_geral)
+
+    dados = {'Nome': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+            'Idade': [25, 30, 22, 35, 28],
+            'Cidade': ['Nova York', 'Los Angeles', 'Chicago', 'Houston', 'Miami']}
+    dataframe_invalido = pd.DataFrame(dados)
+
+    # plot para testes
+    figure, (grafico1, grafico2, grafico3) = plt.subplots(nrows=1, 
+                                    ncols=3, 
+                                    sharex=True, 
+                                    figsize=(20, 5))
+
+    doctest.testmod(verbose=True)
