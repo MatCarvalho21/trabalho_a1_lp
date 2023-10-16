@@ -15,6 +15,7 @@ import doctest
 import utils
 from get_data import get_dates_between_dates
 
+
 def soma_vendas_por_atributo(dados:pd.DataFrame, atributo:str) -> pd.DataFrame:
     """Função que soma algum atributo de um dataframe.
 
