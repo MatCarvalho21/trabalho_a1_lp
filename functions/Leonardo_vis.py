@@ -1,3 +1,7 @@
+"""
+Módulo para a criação da visualização do integrante Leonardo. 
+"""
+
 import sys, os
 esse_caminho = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(esse_caminho)
