@@ -6,7 +6,21 @@
 Bem vindo à documentação de Visualizações de Medicamentos Manipulados!
 ==========================================================================
 
-Inserir textinho bonitinho aqui. Em **negrito** ou *itálico*.
+Essa é a documentação dos módulos que criamos para completar nossas análises e visualizações.
+
+Os módulos e a análise foram feitos como parte de um projeto de faculdade. Os integrantes desse trabalho são:
+
+- Leonardo Alexandre
+
+- Luciano Sampaio
+
+- Matheus MatCarvalho
+
+- Sillas Rocha
+
+
+O código fonte dos módulos pode ser encontrado em https://github.com/MatCarvalho21/trabalho_a1_lp
+
 
 .. toctree::
    :maxdepth: 2
