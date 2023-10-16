@@ -1,5 +1,7 @@
 """
 Módulo para a criação da visualização do integrante Leonardo. 
+As funções desse módulo são utilizadas para a análise exploratória da base de dados e a elaboração da
+visualização baseada nas vendas anuais do remédio Hemitartarato de Zolpidem.
 """
 
 import sys, os
