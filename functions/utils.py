@@ -76,41 +76,45 @@ def concat_data_by_dates(start_date: str, end_date: str, path="dados", file_name
 
     else:
         first_date = dates[0]
-
-        dataset = pd.read_csv(f"{path}/{file_names}_{first_date[:4]}_{first_date[-2:]}.csv",
+        try:
+            dataset = pd.read_csv(f"{path}/{file_names}_{first_date[:4]}_{first_date[-2:]}.csv",
                             delimiter=";", low_memory=False)
+        except Exception as err:
+            print("Erro na leitura do arquivo:", err)
+            return None
         # Verifica se o filtro é valido.
-        if filtered_columns != None:
-            try:
-                if type(filtered_columns) != list:
-                    raise TypeError
-                for each_column in filtered_columns:
-                    if each_column not in dataset.columns:
-                        raise NameError
-
-            except TypeError:
-                print("As colunas filtradas devem ser uma lista de strings das colunas do dataframe, tente inserir novamente.")
-            except NameError:
-                print("Uma ou mais colunas do filtro não estão nas colunas do dataframe, tente verificar as colunas do filtro.")
-            else:
-                dataset = dataset[filtered_columns]
-
-        if len(dates) > 1:
-            for index in range(1, len(dates)):
-                date_year, date_month = dates[index][:4], dates[index][-2:]
+        else:
+            if filtered_columns != None:
                 try:
-                    new_dataset = pd.read_csv(f"{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv",
-                                    delimiter=";", low_memory=False)
-                except Exception as err:
-                    print(f"Não foi possível converter '{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv' em dataframe")
-                    print(err)
-                    continue
-        
-            new_dataset = new_dataset[dataset.columns]
-            
-            dataset = pd.concat([dataset, new_dataset])
+                    if type(filtered_columns) != list:
+                        raise TypeError
+                    for each_column in filtered_columns:
+                        if each_column not in dataset.columns:
+                            raise NameError
 
-        return dataset
+                except TypeError:
+                    print("As colunas filtradas devem ser uma lista de strings das colunas do dataframe, tente inserir novamente.")
+                except NameError:
+                    print("Uma ou mais colunas do filtro não estão nas colunas do dataframe, tente verificar as colunas do filtro.")
+                else:
+                    dataset = dataset[filtered_columns]
+
+            if len(dates) > 1:
+                for index in range(1, len(dates)):
+                    date_year, date_month = dates[index][:4], dates[index][-2:]
+                    try:
+                        new_dataset = pd.read_csv(f"{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv",
+                                        delimiter=";", low_memory=False)
+                    except Exception as err:
+                        print(f"Não foi possível converter '{path}/{file_names}_{date_year[:4]}_{date_month[-2:]}.csv' em dataframe")
+                        print(err)
+                        continue
+            
+                    new_dataset = new_dataset[dataset.columns]
+                    
+                    dataset = pd.concat([dataset, new_dataset])
+
+            return dataset
 
 
 def filtra_dados_por_valores_procurados(dados: pd.DataFrame, coluna_do_valor: str, valores_procurados: list or str) -> pd.DataFrame:
@@ -250,6 +254,7 @@ if __name__ == "__main__":
     # dataframe_geral = pd.concat((df_01, df_02, df_03))
     dataframe_geral = concat_data_by_dates("2014/01", "2014/03", filtered_columns=["PRINCIPIO_ATIVO"])
 
+    # print(dataframe_geral["MES_VENDA"].unique())
     # print(concat_data_by_dates("2021/01", "2021/02", filtered_columns=["ANO_VENDA"]))
 
     doctest.testmod(verbose=True)
