@@ -25,28 +25,35 @@ class Test_Download_Csv_By_Dates(unittest.TestCase):
         """
         verifica se a função retorna um DataFrame no caso básico.
         """
-        dados = pd.DataFrame({'PINCIPIO_ATIVO': ['CLOROQUINA', 'DIFOSFATO DE CLOROQUINA', 'HIDROXICLOROQUINA', 'CLOROQUINA'], 'UF': ["SP", "RJ", "RJ", "MS"]})
+        dados_teste = pd.DataFrame({'PINCIPIO_ATIVO': ['CLOROQUINA', 'DIFOSFATO DE CLOROQUINA', 'HIDROXICLOROQUINA', 'CLOROQUINA'], 'UF': ["SP", "RJ", "RJ", "MS"]})
 
-        self.assertEqual(type(soma_vendas_por_atributo(dados, "UF")), pd.DataFrame)
+        self.assertEqual(type(soma_vendas_por_atributo(dados_teste, "UF")), pd.DataFrame)
 
 
-    # def test_data_frame_invalido(self):
-    #     """
-    #     verifica se a função não retorna nada caso o dataframe seja inválido.
-    #     """
+    def test_data_frame_invalido(self):
+        """
+        verifica se a função não retorna nada caso o dataframe seja inválido.
+        """
 
-    #     self.assertIsNone(filtra_dados_por_valores_procurados(66, "PINCIPIO_ATIVO", "CLOROQUINA"))
+        self.assertIsNone(soma_vendas_por_atributo(66, "UF"))
 
-    # def test_coluna_invalida(self):
-    #     """
-    #     verifica se a função não retorna nada caso a coluna seja inválida.
-    #     """
-    #     dados_teste = pd.DataFrame({"PINCIPIO_ATIVO": ["CLOROQUINA", "DIFOSFATO DE CLOROQUINA", "HIDROXICLOROQUINA", "IBUPROFENO"],
-    #                                             "Qnt": [10, 5, 8, 15]})
 
-    #     self.assertIsNone(filtra_dados_por_valores_procurados(dados_teste, 13, "CLOROQUINA"))
-    
-    #     self.assertIsNone(filtra_dados_por_valores_procurados(dados_teste, "COLUNA_INVÁLIDA", "CLOROQUINA"))
+    def test_coluna_invalida(self):
+        """
+        verifica se a função não retorna nada caso a coluna seja inválida.
+        """
+        dados_teste = pd.DataFrame({'PINCIPIO_ATIVO': ['CLOROQUINA', 'DIFOSFATO DE CLOROQUINA', 'HIDROXICLOROQUINA', 'CLOROQUINA'], 'UF': ["SP", "RJ", "RJ", "MS"]})
+
+        self.assertIsNone(soma_vendas_por_atributo(dados_teste, "COLUNA_INVÁLIDA"))
+
+
+    def test_soma_correta(self):
+        """
+        verifica se a realiza retorna como valor mais frequência o estado correto (RJ).
+        """
+        dados_teste = pd.DataFrame({'PINCIPIO_ATIVO': ['CLOROQUINA', 'DIFOSFATO DE CLOROQUINA', 'HIDROXICLOROQUINA', 'CLOROQUINA'], 'UF': ["SP", "RJ", "RJ", "MS"]})
+
+        self.assertEqual(soma_vendas_por_atributo(dados_teste, "UF")["UF"][0], "RJ")
 
 
 if __name__ == "__main__":
